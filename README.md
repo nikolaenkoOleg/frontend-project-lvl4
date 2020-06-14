@@ -18,6 +18,5 @@ $ make start
 ```
 
 ### URL
-```
+
 https://frontend-project-lvl4-slack.herokuapp.com/
-```
