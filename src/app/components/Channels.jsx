@@ -1,8 +1,9 @@
 import React from 'react';
+import cn from 'classnames';
 
 export default class Channels extends React.PureComponent {
   render() {
-    const { channels } = this.props;
+    const { channels, currentChannel } = this.props;
 
     return (
       <div className="col-3 border-right">
@@ -14,7 +15,17 @@ export default class Channels extends React.PureComponent {
           {channels.map(({ id, name }) => (
             <React.Fragment key={id}>
               <li className="nav-item">
-                <button type="button" className="nav-link btn btn-block">{name}</button>
+                <button
+                  type="button"
+                  className={cn({
+                    'nav-link': true,
+                    btn: true,
+                    'btn-block': true,
+                    active: id === currentChannel,
+                  })}
+                >
+                  {name}
+                </button>
               </li>
             </React.Fragment>
           ))}
