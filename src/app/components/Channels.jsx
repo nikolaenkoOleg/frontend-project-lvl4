@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { connect } from 'react-redux';
+import { actions } from '../slices/channelSlices';
 
 const mapStateToProps = (state) => {
   const { channels, currentChannelId } = state;
@@ -8,7 +9,16 @@ const mapStateToProps = (state) => {
   return { channels, currentChannelId };
 };
 
+const actionCreators = {
+  changeActiveChannel: actions.changeActiveChannel,
+};
+
 class Channels extends React.PureComponent {
+  handleSetActive = (id) => () => {
+    const { changeActiveChannel } = this.props;
+    changeActiveChannel({ id });
+  }
+
   render() {
     const { channels, currentChannelId } = this.props;
 
@@ -30,6 +40,7 @@ class Channels extends React.PureComponent {
                     'btn-block': true,
                     active: id === currentChannelId,
                   })}
+                  onClick={this.handleSetActive(id)}
                 >
                   {name}
                 </button>
@@ -42,4 +53,4 @@ class Channels extends React.PureComponent {
   }
 }
 
-export default connect(mapStateToProps)(Channels);
+export default connect(mapStateToProps, actionCreators)(Channels);

@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const channelsSlise = createSlice({
+const channelsSlice = createSlice({
   name: 'channels',
   reducers: {
     changeActiveChannel(state, action) {
       const { id } = action.payload;
-      return { ...state, currentChannel: id };
+      return { ...state, currentChannelId: id };
     },
     addNewChannel(state, action) {
       const { id, name } = action.payload;
@@ -14,7 +14,21 @@ const channelsSlise = createSlice({
   },
 });
 
-const { actions, reducer } = channelsSlise;
+// const messageSlice = createSlice({
+//   name: 'messages',
+//   reducers: {
+//     postMessage(state, action) {
+
+//     },
+//   },
+// });
+
+const { actions, reducer } = channelsSlice;
 const { changeActiveChannel, addNewChannel } = actions;
 
-export { reducer, changeActiveChannel, addNewChannel };
+export {
+  reducer,
+  changeActiveChannel,
+  addNewChannel,
+  actions,
+};
