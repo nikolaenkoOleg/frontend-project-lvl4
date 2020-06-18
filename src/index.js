@@ -5,7 +5,6 @@ import 'regenerator-runtime/runtime';
 import '../assets/application.scss';
 // @ts-ignore
 import gon from 'gon';
-
 import app from './app/index';
 
 // import faker from 'faker';

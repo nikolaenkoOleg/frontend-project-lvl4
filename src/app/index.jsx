@@ -9,19 +9,18 @@ import Workspace from './components/Workspace';
 import MessagesBox from './components/MessagesBox';
 import InputField from './components/InputField';
 
-import redusers from './redusers';
+import { reducer } from './slices/channelSlices';
 
-const store = configureStore({
-  reducer: redusers,
-});
-
-export default (data) => {
-  const { channels, currentChannelId } = data;
+export default (initialState) => {
+  const store = configureStore({
+    reducer,
+    preloadedState: initialState,
+  });
 
   render(
     <Provider store={store}>
       <Container>
-        <Channels channels={channels} currentChannel={currentChannelId} />
+        <Channels />
         <Workspace>
           <MessagesBox />
           <InputField />

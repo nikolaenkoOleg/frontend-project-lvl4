@@ -1,9 +1,16 @@
 import React from 'react';
 import cn from 'classnames';
+import { connect } from 'react-redux';
 
-export default class Channels extends React.PureComponent {
+const mapStateToProps = (state) => {
+  const { channels, currentChannelId } = state;
+
+  return { channels, currentChannelId };
+};
+
+class Channels extends React.PureComponent {
   render() {
-    const { channels, currentChannel } = this.props;
+    const { channels, currentChannelId } = this.props;
 
     return (
       <div className="col-3 border-right">
@@ -21,7 +28,7 @@ export default class Channels extends React.PureComponent {
                     'nav-link': true,
                     btn: true,
                     'btn-block': true,
-                    active: id === currentChannel,
+                    active: id === currentChannelId,
                   })}
                 >
                   {name}
@@ -34,3 +41,5 @@ export default class Channels extends React.PureComponent {
     );
   }
 }
+
+export default connect(mapStateToProps)(Channels);
