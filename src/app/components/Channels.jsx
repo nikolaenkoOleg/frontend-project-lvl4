@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { connect } from 'react-redux';
-import { actions } from '../slices/channelSlices';
+import { channelActions } from '../redusers';
 
 const mapStateToProps = (state) => {
   const { channels, currentChannelId } = state;
@@ -10,13 +10,13 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  changeActiveChannel: actions.changeActiveChannel,
+  changeChannel: channelActions.changeChannel,
 };
 
 class Channels extends React.PureComponent {
   handleSetActive = (id) => () => {
-    const { changeActiveChannel } = this.props;
-    changeActiveChannel({ id });
+    const { changeChannel } = this.props;
+    changeChannel({ id });
   }
 
   render() {
