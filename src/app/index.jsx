@@ -17,10 +17,8 @@ import { reducer } from './redusers';
 export default (initialState) => {
   coockies.set('user', faker.name.findName());
 
-  console.log(reducer);
   const store = configureStore({
     reducer,
-    middleware: thunk,
     preloadedState: initialState,
   });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { connect } from 'react-redux';
-import { channelActions } from '../redusers';
+import { actions } from '../redusers';
 
 const mapStateToProps = (state) => {
   const { channels, currentChannelId } = state;
@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  changeChannel: channelActions.changeChannel,
+  changeChannel: actions.changeChannel,
 };
 
 class Channels extends React.PureComponent {
