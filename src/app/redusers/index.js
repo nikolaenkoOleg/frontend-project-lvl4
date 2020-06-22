@@ -19,8 +19,6 @@ const chatSlice = createSlice({
   },
 });
 
-console.log('слайс', chatSlice);
-
 const { actions, reducer } = chatSlice;
 
 export const {

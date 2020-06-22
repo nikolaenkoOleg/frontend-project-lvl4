@@ -1,19 +1,31 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
-import sendMessage from '../actions';
+import coockies from 'js-cookie';
+
+import { sendMessageAction } from '../actions';
+
+const mapStateToProps = (state) => {
+  const { currentChannelId } = state;
+
+  return { currentChannelId };
+};
 
 const mapDispatchToProps = {
-  sendMessage,
+  sendMessageAction,
 };
 
 const InputField = (props) => {
-  console.log(props);
   const formik = useFormik({
     initialValues: {
       message: '',
     },
     onSubmit: (values) => {
+      const sendMessage = props.sendMessageAction;
+      const channelId = props.currentChannelId;
+      const author = coockies.get('user');
+      const message = { channelId, author, text: values.message };
+      sendMessage(message);
     },
   });
 
@@ -38,4 +50,7 @@ const InputField = (props) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(InputField);
+export default connect(mapStateToProps, mapDispatchToProps)(InputField);
+
+
+// { channelId: id, text: text, author: Oleg123 }
