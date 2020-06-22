@@ -1,10 +1,10 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
-import { actions } from '../redusers';
+import sendMessage from '../actions';
 
 const mapDispatchToProps = {
-  changeChannel: actions.changeChannel,
+  sendMessage,
 };
 
 const InputField = (props) => {
@@ -14,8 +14,6 @@ const InputField = (props) => {
       message: '',
     },
     onSubmit: (values) => {
-      const { sendMessage } = props;
-      console.log(sendMessage);
     },
   });
 

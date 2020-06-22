@@ -1,35 +1,33 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
 
-import getUrl from '../../routes';
-
-const sendMessage = createAsyncThunk(
-  'chat/sendMessage',
-  async (message) => {
-    const url = getUrl.channelMessagesPath();
-    const response = axios.post(url, message);
-    return response.data;
-  },
-);
-
-const channelsSlice = createSlice({
+const chatSlice = createSlice({
   name: 'chat',
   reducers: {
     changeChannel(state, action) {
       const { id } = action.payload;
       return { ...state, currentChannelId: id };
     },
-  },
-  extraReducers: {
-    [sendMessage.fulfilled]: (state, action) => {
-      console.log(action.payload);
-      return state;
+    addMessageRequest() {
+      return 'request';
+    },
+    addMessageSuccses() {
+      return 'succses';
+    },
+    addMessageFailure() {
+      return 'failure';
     },
   },
-}, {});
+});
 
-console.log(channelsSlice);
+console.log('слайс', chatSlice);
 
-const { actions, reducer } = channelsSlice;
+const { actions, reducer } = chatSlice;
 
-export { actions, reducer };
+export const {
+  addMessageRequest,
+  addMessageSuccses,
+  addMessageFailure,
+  changeChannel,
+} = actions;
+
+export default reducer;

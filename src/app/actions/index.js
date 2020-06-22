@@ -1,4 +1,13 @@
-import { createAction } from '@reduxjs/toolkit';
+import { addMessageRequest, addMessageSuccses, addMessageFailure, changeChannel } from '../redusers';
 
-export const changeChannel = createAction('changeChannel');
-export const addNewChannel = createAction('ADD_CHANNEL');
+
+export const sendMessage = (message) => (dispatch) => {
+  dispatch(addMessageRequest);
+  try {
+    console.log('сообщение в экшене', message);
+  } catch (e) {
+    console.log('ошибка:', e);
+  }
+};
+
+export { changeChannel };
