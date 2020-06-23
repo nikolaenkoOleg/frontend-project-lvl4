@@ -10,8 +10,8 @@ const chatSlice = createSlice({
     addMessageRequest() {
       return 'request';
     },
-    addMessageSuccses() {
-      return 'succses';
+    addMessageSuccses(state, action) {
+      return 'success';
     },
     addMessageFailure() {
       return 'failure';

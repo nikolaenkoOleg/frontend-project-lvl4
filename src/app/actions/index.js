@@ -13,12 +13,14 @@ export const sendMessageAction = (message) => async (dispatch) => {
   dispatch(addMessageRequest);
   try {
     const { channelId } = message;
-    const url = getUrl.channelPath(channelId);
+    const url = getUrl.channelsPath(channelId);
+    console.log(url);
     const response = await axios.post(url, message);
+    console.log(response.data);
     dispatch(addMessageSuccses);
   } catch (e) {
-    console.log(e);
-    dispatch(addMessageFailure);
+    // console.log(e);
+    // dispatch(addMessageFailure);
   }
 };
 
