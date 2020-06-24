@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import getUrl from '../../routes';
-
 import {
   addMessageRequest,
   addMessageSuccses,
