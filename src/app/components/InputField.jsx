@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import coockies from 'js-cookie';
 
-import { sendMessageAction } from '../actions';
+import { sendMessageAction, fetchMessages } from '../actions';
 
 const mapStateToProps = (state) => {
   const { currentChannelId } = state;
@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   sendMessageAction,
+  fetchMessages,
 };
 
 const InputField = (props) => {
@@ -26,6 +27,7 @@ const InputField = (props) => {
       const author = coockies.get('user');
       const message = { channelId, author, text: values.message };
       sendMessage(message);
+      fetchMessages(channelId);
     },
   });
 

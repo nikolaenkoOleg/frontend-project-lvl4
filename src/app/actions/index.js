@@ -6,8 +6,12 @@ import {
   addMessageRequest,
   addMessageSuccses,
   addMessageFailure,
+  getMessagesRequest,
+  getMessagesSucces,
+  getMessagesFailure,
   changeChannel,
 } from '../redusers';
+
 
 export const sendMessageAction = (message) => async (dispatch) => {
   dispatch(addMessageRequest);
@@ -22,9 +26,20 @@ export const sendMessageAction = (message) => async (dispatch) => {
         },
       },
     });
-
-    console.log(response.status);
     dispatch(addMessageSuccses);
+  } catch (e) {
+    console.log(e);
+    dispatch(addMessageFailure);
+  }
+};
+
+export const fetchMessages = (channelId) => async (dispatch) => {
+  dispatch(getMessagesRequest);
+  try {
+    const url = getUrl.channelMessagesPath(channelId);
+
+    const webSocket = new WebSocket(url);
+    webSocket.onopen(() => console.log('123'));
   } catch (e) {
     console.log(e);
     dispatch(addMessageFailure);

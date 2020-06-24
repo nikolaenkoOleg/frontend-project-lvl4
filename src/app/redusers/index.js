@@ -10,10 +10,19 @@ const chatSlice = createSlice({
     addMessageRequest() {
       return 'request';
     },
-    addMessageSuccses(state, action) {
+    addMessageSuccses() {
       return 'success';
     },
     addMessageFailure() {
+      return 'failure';
+    },
+    getMessagesRequest() {
+      return 'request';
+    },
+    getMessagesSucces(state, action) {
+      return 'succes';
+    },
+    getMessagesFailure() {
       return 'failure';
     },
   },
@@ -25,6 +34,9 @@ export const {
   addMessageRequest,
   addMessageSuccses,
   addMessageFailure,
+  getMessagesRequest,
+  getMessagesSucces,
+  getMessagesFailure,
   changeChannel,
 } = actions;
 
