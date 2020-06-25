@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 import getUrl from '../../routes';
 import {
   addMessageRequest,
@@ -32,12 +33,13 @@ export const sendMessageAction = (message) => async (dispatch) => {
   }
 };
 
-export const fetchMessages = (channelId) => async (dispatch) => {
+export const fetchMessagesAction = (channelId) => async (dispatch) => {
   dispatch(getMessagesRequest);
   try {
     const url = getUrl.channelMessagesPath(channelId);
 
-    const webSocket = new WebSocket(url);
+    const webSocket = new WebSocket(`ws://localhost:5000${url}`);
+    console.log(webSocket);
     webSocket.onopen(() => console.log('123'));
   } catch (e) {
     console.log(e);

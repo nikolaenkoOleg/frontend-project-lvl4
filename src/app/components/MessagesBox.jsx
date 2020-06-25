@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { fetchMessages } from '../actions';
-
 const mapStateToProps = (state) => {
   const { messages, currentChannelId } = state;
   const currentChannelMessages = messages.filter(({ channelId }) => currentChannelId === channelId);
@@ -12,10 +10,6 @@ const mapStateToProps = (state) => {
   };
 
   return props;
-};
-
-const mapDispatchToProps = {
-  fetchMessages,
 };
 
 class MessagesBox extends React.PureComponent {
@@ -42,4 +36,4 @@ class MessagesBox extends React.PureComponent {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessagesBox);
+export default connect(mapStateToProps)(MessagesBox);
