@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { connect } from 'react-redux';
-import { changeChannel } from '../actions';
+import { changeChannel, setWebSoketAction } from '../actions';
 
 const mapStateToProps = (state) => {
   const { channels, currentChannelId } = state;
@@ -11,12 +11,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setNewActiveChannel: changeChannel,
+  setWebSoketByChannel: setWebSoketAction,
 };
 
 class Channels extends React.PureComponent {
   handleSetActive = (id) => () => {
     const { setNewActiveChannel } = this.props;
     setNewActiveChannel({ id });
+    setWebSoketByChannel({ id });
   }
 
   render() {

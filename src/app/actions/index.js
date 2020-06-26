@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 import getUrl from '../../routes';
 import {
   addMessageRequest,
@@ -10,6 +9,7 @@ import {
   getMessagesSucces,
   getMessagesFailure,
   changeChannel,
+  setWebSoketByChannel,
 } from '../redusers';
 
 
@@ -33,18 +33,14 @@ export const sendMessageAction = (message) => async (dispatch) => {
   }
 };
 
-export const fetchMessagesAction = (channelId) => async (dispatch) => {
-  dispatch(getMessagesRequest);
-  try {
-    const url = getUrl.channelMessagesPath(channelId);
 
-    const webSocket = new WebSocket(`ws://localhost:5000${url}`);
-    console.log(webSocket);
-    webSocket.onopen(() => console.log('123'));
-  } catch (e) {
-    console.log(e);
-    dispatch(addMessageFailure);
-  }
-};
+// export const fetchMessagesAction = (channelId) => async (dispatch) => {
+//   dispatch(getMessagesRequest);
+//   try {
+//   } catch (e) {
+//     console.log(e);
+//     dispatch(addMessageFailure);
+//   }
+// };
 
 export { changeChannel };

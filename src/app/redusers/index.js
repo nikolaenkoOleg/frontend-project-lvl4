@@ -7,6 +7,9 @@ const chatSlice = createSlice({
       const { id } = action.payload;
       return { ...state, currentChannelId: id };
     },
+    setWebSoketByChannel() {
+      return 'web socket are ready';
+    },
     addMessageRequest() {
       return 'request';
     },
@@ -38,6 +41,7 @@ export const {
   getMessagesSucces,
   getMessagesFailure,
   changeChannel,
+  setWebSoketByChannel,
 } = actions;
 
 export default reducer;

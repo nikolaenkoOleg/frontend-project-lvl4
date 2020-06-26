@@ -4,6 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import coockies from 'js-cookie';
 import faker from 'faker';
+import io from 'socket.io-client';
 
 import Container from './components/Container';
 import Channels from './components/Channels';
@@ -20,6 +21,18 @@ export default (initialState) => {
     reducer,
     preloadedState: initialState,
   });
+
+  const socket = io({
+    transports: ['websocket'],
+  });
+
+  socket.on('connect', () => {
+    console.log(socket.connected);
+  });
+
+  // const messagesSocket = io('https:localhost:5000', {
+  //   path: '/api/v1/channels/1/messages',
+  // });
 
   render(
     <Provider store={store}>
