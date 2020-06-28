@@ -1,4 +1,5 @@
 import axios from 'axios';
+import io from 'socket.io-client';
 
 import getUrl from '../../routes';
 import {
@@ -34,13 +35,13 @@ export const sendMessageAction = (message) => async (dispatch) => {
 };
 
 
-// export const fetchMessagesAction = (channelId) => async (dispatch) => {
-//   dispatch(getMessagesRequest);
-//   try {
-//   } catch (e) {
-//     console.log(e);
-//     dispatch(addMessageFailure);
-//   }
-// };
+export const setWebSoketAction = ({ id }) => async () => {
+  const url = getUrl.channelMessagesPath(id);
+  const socket = io(`ws://localhost:5000${url}`);
+
+  socket.on('newMessage', (data) => {
+    console.log(data);
+  });
+};
 
 export { changeChannel };

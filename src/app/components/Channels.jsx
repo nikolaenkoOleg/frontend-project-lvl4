@@ -16,7 +16,7 @@ const mapDispatchToProps = {
 
 class Channels extends React.PureComponent {
   handleSetActive = (id) => () => {
-    const { setNewActiveChannel } = this.props;
+    const { setNewActiveChannel, setWebSoketByChannel } = this.props;
     setNewActiveChannel({ id });
     setWebSoketByChannel({ id });
   }
