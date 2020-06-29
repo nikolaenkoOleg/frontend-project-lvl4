@@ -6,12 +6,11 @@ import {
   addMessageRequest,
   addMessageSuccses,
   addMessageFailure,
-  getMessagesRequest,
-  getMessagesSucces,
-  getMessagesFailure,
+  fetchMessagesRequest,
+  fetchMessagesSucces,
+  fetchMessagesFailure,
   changeChannel,
-  setWebSoketByChannel,
-} from '../redusers';
+} from '../redusers/index';
 
 
 export const sendMessageAction = (message) => async (dispatch) => {
@@ -20,7 +19,7 @@ export const sendMessageAction = (message) => async (dispatch) => {
     const { channelId } = message;
     const url = getUrl.channelMessagesPath(channelId);
 
-    const response = await axios.post(url, {
+    await axios.post(url, {
       data: {
         attributes: {
           message,
@@ -35,13 +34,18 @@ export const sendMessageAction = (message) => async (dispatch) => {
 };
 
 
-export const setWebSoketAction = ({ id }) => async () => {
-  const url = getUrl.channelMessagesPath(id);
-  const socket = io(`ws://localhost:5000${url}`);
+export const fetchMessagesAction = () => async (dispatch) => {
+  dispatch(fetchMessagesRequest);
+  try {
+    const socket = io('ws://localhost:5000');
 
-  socket.on('newMessage', (data) => {
-    console.log(data);
-  });
+    socket.on('newMessage', (data) => {
+      dispatch(fetchMessagesSucces(data.data));
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch(fetchMessagesFailure);
+  }
 };
 
 export { changeChannel };

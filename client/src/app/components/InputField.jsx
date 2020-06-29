@@ -13,7 +13,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   sendMessage: sendMessageAction,
-  // fetchMessages: fetchMessagesAction,
 };
 
 const InputField = (props) => {
@@ -27,7 +26,6 @@ const InputField = (props) => {
       const author = coockies.get('user');
       const message = { channelId, author, text: values.message };
       sendMessage(message);
-      // fetchMessages(channelId);
     },
   });
 

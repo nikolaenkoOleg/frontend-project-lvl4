@@ -7,9 +7,6 @@ const chatSlice = createSlice({
       const { id } = action.payload;
       return { ...state, currentChannelId: id };
     },
-    setWebSoketByChannel() {
-      return 'web socket are ready';
-    },
     addMessageRequest() {
       return 'request';
     },
@@ -19,13 +16,14 @@ const chatSlice = createSlice({
     addMessageFailure() {
       return 'failure';
     },
-    getMessagesRequest() {
+    fetchMessagesRequest() {
       return 'request';
     },
-    getMessagesSucces(state, action) {
-      return 'succes';
+    fetchMessagesSucces(state, { payload: { attributes } }) {
+      state.messages.push({ ...attributes });
+      return state;
     },
-    getMessagesFailure() {
+    fetchMessagesFailure() {
       return 'failure';
     },
   },
@@ -37,11 +35,10 @@ export const {
   addMessageRequest,
   addMessageSuccses,
   addMessageFailure,
-  getMessagesRequest,
-  getMessagesSucces,
-  getMessagesFailure,
+  fetchMessagesRequest,
+  fetchMessagesSucces,
+  fetchMessagesFailure,
   changeChannel,
-  setWebSoketByChannel,
 } = actions;
 
 export default reducer;
