@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
-import coockies from 'js-cookie';
 
 import { sendMessageAction } from '../actions';
+import UserContext from '../context';
 
 const mapStateToProps = (state) => {
   const { currentChannelId } = state;
@@ -16,15 +16,17 @@ const mapDispatchToProps = {
 };
 
 const InputField = (props) => {
+  const user = useContext(UserContext);
+
   const formik = useFormik({
     initialValues: {
       message: '',
     },
     onSubmit: (values) => {
+      console.log(user);
       const { sendMessage } = props;
       const channelId = props.currentChannelId;
-      const author = coockies.get('user');
-      const message = { channelId, author, text: values.message };
+      const message = { channelId, author: user, text: values.message };
       sendMessage(message);
     },
   });

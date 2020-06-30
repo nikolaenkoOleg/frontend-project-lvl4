@@ -13,9 +13,11 @@ import MessagesBox from './components/MessagesBox';
 import InputField from './components/InputField';
 
 import reducer from './redusers';
+import { UserProvider } from './context';
 
 export default (initialState) => {
   coockies.set('user', faker.name.findName());
+  const user = coockies.get('user');
 
   const store = configureStore({
     reducer,
@@ -28,7 +30,9 @@ export default (initialState) => {
         <Channels />
         <Workspace>
           <MessagesBox />
-          <InputField />
+          <UserProvider value={user}>
+            <InputField />
+          </UserProvider>
         </Workspace>
       </Container>
     </Provider>,
