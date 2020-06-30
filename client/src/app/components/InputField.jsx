@@ -15,6 +15,16 @@ const mapDispatchToProps = {
   sendMessage: sendMessageAction,
 };
 
+const validate = (values) => {
+  const errors = {};
+
+  if (!values.message) {
+    errors.message = 'Required';
+  }
+
+  return errors;
+};
+
 const InputField = (props) => {
   const user = useContext(UserContext);
 
@@ -22,12 +32,16 @@ const InputField = (props) => {
     initialValues: {
       message: '',
     },
-    onSubmit: (values) => {
-      console.log(user);
+    validate,
+    onSubmit: (values, { resetForm }) => {
       const { sendMessage } = props;
       const channelId = props.currentChannelId;
       const message = { channelId, author: user, text: values.message };
+
       sendMessage(message);
+      resetForm({
+        message: '',
+      });
     },
   });
 
@@ -44,7 +58,7 @@ const InputField = (props) => {
               onChange={formik.handleChange}
               value={formik.values.message}
             />
-            <div className="d-block invalid-feedback" />
+            {formik.errors.message ? <div className="d-block invalid-feedback">{formik.errors.message}</div> : null}
           </div>
         </div>
       </form>
