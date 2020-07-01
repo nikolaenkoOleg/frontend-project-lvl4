@@ -14,7 +14,7 @@ import {
 
 
 export const sendMessageAction = (message) => async (dispatch) => {
-  dispatch(addMessageRequest);
+  dispatch(addMessageRequest());
   try {
     const { channelId } = message;
     const url = getUrl.channelMessagesPath(channelId);
@@ -26,16 +26,16 @@ export const sendMessageAction = (message) => async (dispatch) => {
         },
       },
     });
-    dispatch(addMessageSuccses);
+    dispatch(addMessageSuccses());
   } catch (e) {
     console.log(e);
-    dispatch(addMessageFailure);
+    dispatch(addMessageFailure());
   }
 };
 
 
 export const fetchMessagesAction = () => async (dispatch) => {
-  dispatch(fetchMessagesRequest);
+  dispatch(fetchMessagesRequest());
   try {
     const socket = io('ws://localhost:5000');
 
@@ -44,7 +44,7 @@ export const fetchMessagesAction = () => async (dispatch) => {
     });
   } catch (error) {
     console.log(error);
-    dispatch(fetchMessagesFailure);
+    dispatch(fetchMessagesFailure());
   }
 };
 

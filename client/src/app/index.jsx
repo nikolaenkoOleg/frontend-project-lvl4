@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import coockies from 'js-cookie';
 import faker from 'faker';
 
-
 import Container from './components/Container';
 import Channels from './components/Channels';
 import Workspace from './components/Workspace';

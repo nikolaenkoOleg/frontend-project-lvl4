@@ -7,8 +7,8 @@ const chatSlice = createSlice({
       const { id } = action.payload;
       return { ...state, currentChannelId: id };
     },
-    addMessageRequest() {
-      return 'request';
+    addMessageRequest(state) {
+      return state;
     },
     addMessageSuccses() {
       return 'success';
@@ -16,8 +16,8 @@ const chatSlice = createSlice({
     addMessageFailure() {
       return 'failure';
     },
-    fetchMessagesRequest() {
-      return 'request';
+    fetchMessagesRequest(state) {
+      return state;
     },
     fetchMessagesSucces(state, { payload: { attributes } }) {
       state.messages.push({ ...attributes });

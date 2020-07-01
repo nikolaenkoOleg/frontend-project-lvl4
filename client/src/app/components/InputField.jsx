@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
+import cn from 'classnames';
 
 import { sendMessageAction } from '../actions';
 import UserContext from '../context';
@@ -54,7 +55,10 @@ const InputField = (props) => {
               type="text"
               id="message"
               name="message"
-              className="form-control"
+              className={cn({
+                'form-control': true,
+                'is-invalid': formik.errors.message !== undefined,
+              })}
               onChange={formik.handleChange}
               value={formik.values.message}
             />
