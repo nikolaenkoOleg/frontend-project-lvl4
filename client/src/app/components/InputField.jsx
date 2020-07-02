@@ -7,9 +7,9 @@ import { sendMessageAction } from '../actions';
 import UserContext from '../context';
 
 const mapStateToProps = (state) => {
-  const { currentChannelId } = state;
+  const { currentChannelId, sendMessagesState } = state;
 
-  return { currentChannelId };
+  return { currentChannelId, sendMessagesState };
 };
 
 const mapDispatchToProps = {
@@ -27,6 +27,8 @@ const validate = (values) => {
 };
 
 const InputField = (props) => {
+  const { sendMessagesState } = props;
+  console.log(sendMessagesState);
   const user = useContext(UserContext);
 
   const formik = useFormik({
@@ -55,6 +57,7 @@ const InputField = (props) => {
               type="text"
               id="message"
               name="message"
+              disabled={sendMessagesState.type === 'request'}
               className={cn({
                 'form-control': true,
                 'is-invalid': formik.errors.message !== undefined,

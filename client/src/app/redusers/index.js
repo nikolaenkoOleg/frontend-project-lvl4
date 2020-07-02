@@ -7,24 +7,33 @@ const chatSlice = createSlice({
       const { id } = action.payload;
       return { ...state, currentChannelId: id };
     },
-    addMessageRequest(state) {
-      return state;
+    sendMessageRequest(state) {
+      return { ...state, sendMessagesState: { type: 'request' } };
     },
-    addMessageSuccses() {
-      return 'success';
+    sendMessageSuccses(state) {
+      return { ...state, sendMessagesState: { type: 'succses' } };
     },
-    addMessageFailure() {
-      return 'failure';
+    sendMessageFailure(state, { payload: { message } }) {
+      return { ...state, sendMessagesState: { type: 'error', text: message } };
     },
     fetchMessagesRequest(state) {
-      return state;
+      const fetchMessagesState = { type: 'request', text: 'Listening...' };
+      return { ...state, fetchMessagesState };
     },
-    fetchMessagesSucces(state, { payload: { attributes } }) {
-      state.messages.push({ ...attributes });
-      return state;
+    fetchMessagesSuccses(state, { payload: { attributes } }) {
+      const { channels, messages, currentChannelId } = state;
+      const fetchMessagesState = { type: 'succses', text: 'Succses!' };
+
+      return {
+        channels,
+        messages: [...messages, attributes],
+        currentChannelId,
+        fetchMessagesState,
+      };
     },
-    fetchMessagesFailure() {
-      return 'failure';
+    fetchMessagesFailure(state, { payload: { message } }) {
+      const fetchMessagesState = { type: 'error', text: message };
+      return { ...state, fetchMessagesState };
     },
   },
 });
@@ -32,11 +41,11 @@ const chatSlice = createSlice({
 const { actions, reducer } = chatSlice;
 
 export const {
-  addMessageRequest,
-  addMessageSuccses,
-  addMessageFailure,
+  sendMessageRequest,
+  sendMessageSuccses,
+  sendMessageFailure,
   fetchMessagesRequest,
-  fetchMessagesSucces,
+  fetchMessagesSuccses,
   fetchMessagesFailure,
   changeChannel,
 } = actions;

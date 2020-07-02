@@ -3,18 +3,18 @@ import io from 'socket.io-client';
 
 import getUrl from '../../routes';
 import {
-  addMessageRequest,
-  addMessageSuccses,
-  addMessageFailure,
+  sendMessageRequest,
+  sendMessageSuccses,
+  sendMessageFailure,
   fetchMessagesRequest,
-  fetchMessagesSucces,
+  fetchMessagesSuccses,
   fetchMessagesFailure,
   changeChannel,
 } from '../redusers/index';
 
 
 export const sendMessageAction = (message) => async (dispatch) => {
-  dispatch(addMessageRequest());
+  dispatch(sendMessageRequest());
   try {
     const { channelId } = message;
     const url = getUrl.channelMessagesPath(channelId);
@@ -26,10 +26,10 @@ export const sendMessageAction = (message) => async (dispatch) => {
         },
       },
     });
-    dispatch(addMessageSuccses());
+    dispatch(sendMessageSuccses());
   } catch (e) {
+    dispatch(sendMessageFailure(e));
     console.log(e);
-    dispatch(addMessageFailure());
   }
 };
 
@@ -40,11 +40,11 @@ export const fetchMessagesAction = () => async (dispatch) => {
     const socket = io('ws://localhost:5000');
 
     socket.on('newMessage', (data) => {
-      dispatch(fetchMessagesSucces(data.data));
+      dispatch(fetchMessagesSuccses(data.data));
     });
-  } catch (error) {
-    console.log(error);
-    dispatch(fetchMessagesFailure());
+  } catch (e) {
+    dispatch(fetchMessagesFailure(e));
+    console.log(e);
   }
 };
 

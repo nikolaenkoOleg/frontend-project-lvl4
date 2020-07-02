@@ -20,7 +20,11 @@ export default (initialState) => {
 
   const store = configureStore({
     reducer,
-    preloadedState: initialState,
+    preloadedState: {
+      ...initialState,
+      sendMessagesState: { type: 'none' },
+      fetchMessagesState: { type: 'none' },
+    },
   });
 
   render(
