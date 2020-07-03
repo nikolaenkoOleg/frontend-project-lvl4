@@ -4,6 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import coockies from 'js-cookie';
 import faker from 'faker';
+import io from 'socket.io-client';
 
 import Container from './components/Container';
 import Channels from './components/Channels';
@@ -17,6 +18,8 @@ import { UserProvider } from './context';
 export default (initialState) => {
   coockies.set('user', faker.name.findName());
   const user = coockies.get('user');
+
+  const socket = io('ws://localhost:5000');
 
   const store = configureStore({
     reducer,

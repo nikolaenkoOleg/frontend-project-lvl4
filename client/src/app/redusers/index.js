@@ -17,17 +17,15 @@ const chatSlice = createSlice({
       return { ...state, sendMessagesState: { type: 'error', text: message } };
     },
     fetchMessagesRequest(state) {
-      const fetchMessagesState = { type: 'request', text: 'Listening...' };
+      const fetchMessagesState = { type: 'request', text: 'request' };
       return { ...state, fetchMessagesState };
     },
     fetchMessagesSuccses(state, { payload: { attributes } }) {
-      const { channels, messages, currentChannelId } = state;
       const fetchMessagesState = { type: 'succses', text: 'Succses!' };
 
       return {
-        channels,
-        messages: [...messages, attributes],
-        currentChannelId,
+        ...state,
+        messages: [...state.messages, attributes],
         fetchMessagesState,
       };
     },

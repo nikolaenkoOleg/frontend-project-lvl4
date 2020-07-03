@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 
-import { sendMessageAction } from '../actions';
+import { sendMessageAction, fetchMessagesAction } from '../actions';
 import UserContext from '../context';
 
 const mapStateToProps = (state) => {
@@ -14,6 +14,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   sendMessage: sendMessageAction,
+  fetchMessages: fetchMessagesAction,
 };
 
 const validate = (values) => {
@@ -36,12 +37,13 @@ const InputField = (props) => {
       message: '',
     },
     validate,
-    onSubmit: (values, { resetForm }) => {
-      const { sendMessage } = props;
+    onSubmit: async (values, { resetForm }) => {
+      const { sendMessage, fetchMessages } = props;
       const channelId = props.currentChannelId;
       const message = { channelId, author: user, text: values.message };
 
-      sendMessage(message);
+      await sendMessage(message);
+      await fetchMessages();
       resetForm({
         message: '',
       });

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import io from 'socket.io-client';
 
 import getUrl from '../../routes';
 import {
@@ -11,7 +10,6 @@ import {
   fetchMessagesFailure,
   changeChannel,
 } from '../redusers/index';
-
 
 export const sendMessageAction = (message) => async (dispatch) => {
   dispatch(sendMessageRequest());
@@ -34,11 +32,9 @@ export const sendMessageAction = (message) => async (dispatch) => {
 };
 
 
-export const fetchMessagesAction = () => async (dispatch) => {
+export const fetchMessagesAction = () => (dispatch) => {
   dispatch(fetchMessagesRequest());
   try {
-    const socket = io('ws://localhost:5000');
-
     socket.on('newMessage', (data) => {
       dispatch(fetchMessagesSuccses(data.data));
     });
