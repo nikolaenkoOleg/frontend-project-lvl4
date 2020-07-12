@@ -14,9 +14,13 @@ const mapDispatchToProps = {
 };
 
 class Channels extends React.PureComponent {
-  handleSetActive = (id) => () => {
+  setActiveChannelHandle = (id) => () => {
     const { setNewActiveChannel } = this.props;
     setNewActiveChannel({ id });
+  }
+
+  addNewChannelHandle = () => {
+    
   }
 
   render() {
@@ -26,7 +30,7 @@ class Channels extends React.PureComponent {
       <div className="col-3 border-right">
         <div className="d-flex mb-2">
           <span>Channels</span>
-          <button type="button" className="btn btn-link p-0 ml-auto">+</button>
+          <button type="button" className="btn btn-link p-0 ml-auto" onClick={this.addNewChannelHandle()}>+</button>
         </div>
         <ul className="nav flex-column nav-pills nav-fill">
           {channels.map(({ id, name }) => (
@@ -40,7 +44,7 @@ class Channels extends React.PureComponent {
                     'btn-block': true,
                     active: id === currentChannelId,
                   })}
-                  onClick={this.handleSetActive(id)}
+                  onClick={this.setActiveChannelHandle(id)}
                 >
                   {name}
                 </button>

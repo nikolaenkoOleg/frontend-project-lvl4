@@ -26,7 +26,7 @@ export const sendMessageAction = (message) => async (dispatch) => {
     });
     dispatch(sendMessageSuccses());
   } catch (e) {
-    dispatch(sendMessageFailure(e));
+    dispatch(sendMessageFailure());
     console.log(e);
   }
 };
@@ -37,7 +37,7 @@ export const getMessagesAction = (data) => (dispatch) => {
   try {
     dispatch(getMessagesSuccses(data));
   } catch (e) {
-    dispatch(getMessagesFailure(e));
+    dispatch(getMessagesFailure());
     console.log(e);
   }
 };

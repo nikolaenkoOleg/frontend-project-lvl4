@@ -3,8 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const chatSlice = createSlice({
   name: 'chat',
   reducers: {
-    changeChannel(state, action) {
-      const { id } = action.payload;
+    changeChannel(state, { payload: { id } }) {
       return { ...state, currentChannelId: id };
     },
     sendMessageRequest(state) {
@@ -13,25 +12,33 @@ const chatSlice = createSlice({
     sendMessageSuccses(state) {
       return { ...state, sendMessagesState: { type: 'succses' } };
     },
-    sendMessageFailure(state, { payload: { message } }) {
-      return { ...state, sendMessagesState: { type: 'error', text: message } };
+    sendMessageFailure(state) {
+      return { ...state, sendMessagesState: { type: 'error', text: 'Network error' } };
     },
     getMessagesRequest(state) {
-      const fetchMessagesState = { type: 'request', text: 'request' };
-      return { ...state, fetchMessagesState };
+      const getMessagesState = { type: 'request', text: 'request' };
+      return { ...state, getMessagesState };
     },
     getMessagesSuccses(state, { payload: { data: { attributes } } }) {
-      const fetchMessagesState = { type: 'succses', text: 'Succses!' };
+      const getMessagesState = { type: 'succses', text: 'Succses!' };
 
       return {
         ...state,
         messages: [...state.messages, attributes],
-        fetchMessagesState,
+        getMessagesState,
       };
     },
-    getMessagesFailure(state, { payload: { message } }) {
-      const fetchMessagesState = { type: 'error', text: message };
-      return { ...state, fetchMessagesState };
+    getMessagesFailure(state) {
+      return { ...state, getMessagesState: { type: 'error', text: 'Network error' } };
+    },
+    addNewChannelRequest(state) {
+
+    },
+    addNewChannelSuccses(state) {
+
+    },
+    addNewChannelFailure(state) {
+
     },
   },
 });
