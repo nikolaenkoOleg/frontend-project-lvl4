@@ -5,9 +5,9 @@ import {
   sendMessageRequest,
   sendMessageSuccses,
   sendMessageFailure,
-  fetchMessagesRequest,
-  fetchMessagesSuccses,
-  fetchMessagesFailure,
+  getMessagesRequest,
+  getMessagesSuccses,
+  getMessagesFailure,
   changeChannel,
 } from '../redusers/index';
 
@@ -32,14 +32,12 @@ export const sendMessageAction = (message) => async (dispatch) => {
 };
 
 
-export const fetchMessagesAction = () => (dispatch) => {
-  dispatch(fetchMessagesRequest());
+export const getMessagesAction = (data) => (dispatch) => {
+  dispatch(getMessagesRequest());
   try {
-    socket.on('newMessage', (data) => {
-      dispatch(fetchMessagesSuccses(data.data));
-    });
+    dispatch(getMessagesSuccses(data));
   } catch (e) {
-    dispatch(fetchMessagesFailure(e));
+    dispatch(getMessagesFailure(e));
     console.log(e);
   }
 };

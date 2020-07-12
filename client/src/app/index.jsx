@@ -14,6 +14,7 @@ import InputField from './components/InputField';
 
 import reducer from './redusers';
 import { UserProvider } from './context';
+import * as actions from './actions';
 
 export default (initialState) => {
   coockies.set('user', faker.name.findName());
@@ -28,6 +29,10 @@ export default (initialState) => {
       sendMessagesState: { type: 'none' },
       fetchMessagesState: { type: 'none' },
     },
+  });
+
+  socket.on('newMessage', (data) => {
+    store.dispatch(actions.getMessagesAction(data));
   });
 
   render(

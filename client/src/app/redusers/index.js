@@ -16,11 +16,11 @@ const chatSlice = createSlice({
     sendMessageFailure(state, { payload: { message } }) {
       return { ...state, sendMessagesState: { type: 'error', text: message } };
     },
-    fetchMessagesRequest(state) {
+    getMessagesRequest(state) {
       const fetchMessagesState = { type: 'request', text: 'request' };
       return { ...state, fetchMessagesState };
     },
-    fetchMessagesSuccses(state, { payload: { attributes } }) {
+    getMessagesSuccses(state, { payload: { data: { attributes } } }) {
       const fetchMessagesState = { type: 'succses', text: 'Succses!' };
 
       return {
@@ -29,7 +29,7 @@ const chatSlice = createSlice({
         fetchMessagesState,
       };
     },
-    fetchMessagesFailure(state, { payload: { message } }) {
+    getMessagesFailure(state, { payload: { message } }) {
       const fetchMessagesState = { type: 'error', text: message };
       return { ...state, fetchMessagesState };
     },
@@ -42,9 +42,9 @@ export const {
   sendMessageRequest,
   sendMessageSuccses,
   sendMessageFailure,
-  fetchMessagesRequest,
-  fetchMessagesSuccses,
-  fetchMessagesFailure,
+  getMessagesRequest,
+  getMessagesSuccses,
+  getMessagesFailure,
   changeChannel,
 } = actions;
 
