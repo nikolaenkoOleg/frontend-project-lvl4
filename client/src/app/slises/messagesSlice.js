@@ -4,23 +4,25 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState: {
     messages: [],
+    sendMessageState: 'none',
   },
   reducers: {
     sendMessageRequest(state) {
-      return { ...state, sendMessagesState: { type: 'request' } };
+      console.log(state);
+      return { ...state, sendMessageState: { type: 'request' } };
     },
     sendMessageSuccses(state) {
-      return { ...state, sendMessagesState: { type: 'succses' } };
+      return { ...state, sendMessageState: { type: 'succses' } };
     },
     sendMessageFailure(state) {
-      return { ...state, sendMessagesState: { type: 'error', text: 'Network error' } };
+      return { ...state, sendMessageState: { type: 'error', text: 'Network error' } };
     },
     getMessagesRequest(state) {
-      const getMessagesState = { type: 'request', text: 'request' };
+      const getMessagesState = { type: 'request' };
       return { ...state, getMessagesState };
     },
     getMessagesSuccses(state, { payload: { data: { attributes } } }) {
-      const getMessagesState = { type: 'succses', text: 'Succses!' };
+      const getMessagesState = { type: 'succses' };
 
       return {
         ...state,

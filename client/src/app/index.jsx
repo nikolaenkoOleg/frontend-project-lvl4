@@ -27,6 +27,7 @@ export default (gon) => {
     preloadedState: {
       messagesState: {
         messages: gon.messages,
+        sendMessageState: 'none',
       },
       channelsState: {
         channels: gon.channels,

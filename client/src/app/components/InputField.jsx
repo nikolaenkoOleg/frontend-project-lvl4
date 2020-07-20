@@ -5,11 +5,12 @@ import cn from 'classnames';
 
 import { sendMessageAction } from '../actions';
 import UserContext from '../context';
+import Loader from './Loader';
 
 const mapStateToProps = (state) => {
-  const { channelsState: { currentChannelId } } = state;
+  const { channelsState: { currentChannelId }, messagesState: { sendMessageState } } = state;
 
-  return { currentChannelId };
+  return { currentChannelId, sendMessageState };
 };
 
 const mapDispatchToProps = {
@@ -27,6 +28,7 @@ const validate = (values) => {
 };
 
 const InputField = (props) => {
+  const { sendMessageState } = props;
   const user = useContext(UserContext);
 
   const formik = useFormik({
@@ -55,14 +57,17 @@ const InputField = (props) => {
               type="text"
               id="message"
               name="message"
+              disabled={sendMessageState.type === 'request'}
               className={cn({
                 'form-control': true,
-                'is-invalid': formik.errors.message !== undefined,
+                'is-invalid': formik.errors.message !== undefined || sendMessageState.type === 'error',
               })}
               onChange={formik.handleChange}
               value={formik.values.message}
             />
+            <Loader show={sendMessageState.type === 'request'} />
             {formik.errors.message ? <div className="d-block invalid-feedback">{formik.errors.message}</div> : null}
+            {sendMessageState.type === 'error' ? <div className="d-block invalid-feedback">{sendMessageState.text}</div> : null}
           </div>
         </div>
       </form>
