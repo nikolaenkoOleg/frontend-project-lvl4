@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 const mapStateToProps = (state) => {
-  const { messages, currentChannelId } = state;
+  const { messagesState: { messages }, channelsState: { currentChannelId } } = state;
   const currentChannelMessages = messages.filter(({ channelId }) => currentChannelId === channelId);
   const props = {
     messages: currentChannelMessages,

@@ -12,22 +12,26 @@ import Workspace from './components/Workspace';
 import MessagesBox from './components/MessagesBox';
 import InputField from './components/InputField';
 
-import reducer from './redusers';
+import rootReduser from './slises';
 import { UserProvider } from './context';
 import * as actions from './actions';
 
-export default (initialState) => {
+export default (gon) => {
   coockies.set('user', faker.name.findName());
   const user = coockies.get('user');
 
   const socket = io('ws://localhost:5000');
 
   const store = configureStore({
-    reducer,
+    reducer: rootReduser,
     preloadedState: {
-      ...initialState,
-      sendMessagesState: { type: 'none' },
-      fetchMessagesState: { type: 'none' },
+      messagesState: {
+        messages: gon.messages,
+      },
+      channelsState: {
+        channels: gon.channels,
+        currentChannelId: gon.currentChannelId,
+      },
     },
   });
 

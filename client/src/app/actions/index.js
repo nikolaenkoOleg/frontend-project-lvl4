@@ -9,7 +9,7 @@ import {
   getMessagesSuccses,
   getMessagesFailure,
   changeChannel,
-} from '../redusers/index';
+} from '../slises';
 
 export const sendMessageAction = (message) => async (dispatch) => {
   dispatch(sendMessageRequest());

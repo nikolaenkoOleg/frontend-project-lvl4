@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const chatSlice = createSlice({
-  name: 'chat',
+const messagesSlice = createSlice({
+  name: 'messages',
+  initialState: {
+    messages: [],
+  },
   reducers: {
-    changeChannel(state, { payload: { id } }) {
-      return { ...state, currentChannelId: id };
-    },
     sendMessageRequest(state) {
       return { ...state, sendMessagesState: { type: 'request' } };
     },
@@ -31,28 +31,9 @@ const chatSlice = createSlice({
     getMessagesFailure(state) {
       return { ...state, getMessagesState: { type: 'error', text: 'Network error' } };
     },
-    addNewChannelRequest(state) {
-
-    },
-    addNewChannelSuccses(state) {
-
-    },
-    addNewChannelFailure(state) {
-
-    },
   },
 });
 
-const { actions, reducer } = chatSlice;
+export const { actions } = messagesSlice;
 
-export const {
-  sendMessageRequest,
-  sendMessageSuccses,
-  sendMessageFailure,
-  getMessagesRequest,
-  getMessagesSuccses,
-  getMessagesFailure,
-  changeChannel,
-} = actions;
-
-export default reducer;
+export default messagesSlice.reducer;
