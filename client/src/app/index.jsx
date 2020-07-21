@@ -32,6 +32,7 @@ export default (gon) => {
       channelsState: {
         channels: gon.channels,
         currentChannelId: gon.currentChannelId,
+        addingChannelState: 'none',
       },
       modalState: {
         isShow: false,
@@ -41,6 +42,10 @@ export default (gon) => {
 
   socket.on('newMessage', (data) => {
     store.dispatch(actions.getMessagesAction(data));
+  });
+
+  socket.on('newChannel', (data) => {
+    store.dispatch(actions.getChannels(data));
   });
 
   render(

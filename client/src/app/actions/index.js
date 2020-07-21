@@ -8,7 +8,11 @@ import {
   getMessagesRequest,
   getMessagesSuccses,
   getMessagesFailure,
+  addNewChannelRequest,
+  addNewChannelSuccses,
+  addNewChannelFailure,
   changeChannel,
+  getChannels,
 } from '../slises';
 
 export { openModal, closeModal } from '../slises';
@@ -44,4 +48,23 @@ export const getMessagesAction = (data) => (dispatch) => {
   }
 };
 
-export { changeChannel };
+export const addNewChannelAction = (name) => async (dispatch) => {
+  dispatch(addNewChannelRequest());
+  try {
+    const url = getUrl.channelsPath();
+    await axios.post(url, {
+      data: {
+        attributes: {
+          name,
+        },
+      },
+    });
+
+    dispatch(addNewChannelSuccses());
+  } catch (e) {
+    dispatch(addNewChannelFailure(e));
+    console.log(e);
+  }
+};
+
+export { changeChannel, getChannels };

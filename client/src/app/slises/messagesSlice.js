@@ -4,11 +4,9 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState: {
     messages: [],
-    sendMessageState: 'none',
   },
   reducers: {
     sendMessageRequest(state) {
-      console.log(state);
       return { ...state, sendMessageState: { type: 'request' } };
     },
     sendMessageSuccses(state) {

@@ -18,6 +18,7 @@ export const {
   addNewChannelRequest,
   addNewChannelSuccses,
   addNewChannelFailure,
+  getChannels,
 } = channelsActions;
 
 export const {

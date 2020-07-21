@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { closeModal as closeModalAction } from '../../actions';
+import { closeModal as closeModalAction, addNewChannelAction } from '../../actions';
 
 const mapStateToProps = (state) => {
   const { modalState: { isShow } } = state;
@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   closeModal: closeModalAction,
+  addChannel: addNewChannelAction,
 };
 
 class Add extends React.PureComponent {
@@ -28,6 +29,10 @@ class Add extends React.PureComponent {
 
   onSubmit = (e) => {
     e.preventDefault();
+    const { addChannel, closeModal } = this.props;
+    const { channelName } = this.state;
+    addChannel(channelName);
+    closeModal();
   }
 
   onClose = () => {
@@ -44,7 +49,7 @@ class Add extends React.PureComponent {
         </Modal.Header>
 
         <Modal.Body>
-          <Form onSubmit={this.onSubmit}>
+          <Form>
             <Form.Group controlId="formBasicEmail">
               <Form.Control type="text" value={channelName} placeholder="Enter new channel name" onChange={this.onChange} />
             </Form.Group>
@@ -53,7 +58,7 @@ class Add extends React.PureComponent {
 
         <Modal.Footer>
           <Button variant="secondary" onClick={this.onClose}>Close</Button>
-          <Button variant="primary">Add</Button>
+          <Button variant="primary" onClick={this.onSubmit}>Add</Button>
         </Modal.Footer>
       </Modal.Dialog>
     );
