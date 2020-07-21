@@ -33,6 +33,9 @@ export default (gon) => {
         channels: gon.channels,
         currentChannelId: gon.currentChannelId,
       },
+      modalState: {
+        isShow: false,
+      },
     },
   });
 

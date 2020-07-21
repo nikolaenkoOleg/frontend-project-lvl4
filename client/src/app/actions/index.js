@@ -11,6 +11,8 @@ import {
   changeChannel,
 } from '../slises';
 
+export { openModal, closeModal } from '../slises';
+
 export const sendMessageAction = (message) => async (dispatch) => {
   dispatch(sendMessageRequest());
   try {

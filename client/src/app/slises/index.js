@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import messagesState, { actions as messagesActions } from './messagesSlice';
 import channelsState, { actions as channelsActions } from './channelsSlice';
+import modalState, { actions as modalActions } from './modalSlice';
 
 export const {
   sendMessageRequest,
@@ -19,7 +20,13 @@ export const {
   addNewChannelFailure,
 } = channelsActions;
 
+export const {
+  openModal,
+  closeModal,
+} = modalActions;
+
 export default combineReducers({
   messagesState,
   channelsState,
+  modalState,
 });
