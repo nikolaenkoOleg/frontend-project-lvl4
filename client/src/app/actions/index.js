@@ -2,6 +2,9 @@ import axios from 'axios';
 
 import getUrl from '../../routes';
 import {
+  changeChannel,
+  getChannels,
+  fetchChannels,
   sendMessageRequest,
   sendMessageSuccses,
   sendMessageFailure,
@@ -11,8 +14,9 @@ import {
   addNewChannelRequest,
   addNewChannelSuccses,
   addNewChannelFailure,
-  changeChannel,
-  getChannels,
+  editChannelRequest,
+  editChannelSuccess,
+  editChannelFailure,
 } from '../slises';
 
 export { openModal, closeModal } from '../slises';
@@ -36,7 +40,6 @@ export const sendMessageAction = (message) => async (dispatch) => {
     console.log(e);
   }
 };
-
 
 export const getMessagesAction = (data) => (dispatch) => {
   dispatch(getMessagesRequest());
@@ -67,4 +70,25 @@ export const addNewChannelAction = (name) => async (dispatch) => {
   }
 };
 
-export { changeChannel, getChannels };
+export const editChannelAction = ({ channelName, currentChannelId }) => async (dispatch) => {
+  console.log(channelName, currentChannelId);
+  dispatch(editChannelRequest());
+  try {
+    const url = getUrl.channelPath(currentChannelId);
+    console.log(url);
+    await axios.patch(url, {
+      data: {
+        attributes: {
+          name: channelName,
+        },
+      },
+    });
+
+    dispatch(editChannelSuccess());
+  } catch (e) {
+    dispatch(editChannelFailure(e));
+    console.log(e);
+  }
+};
+
+export { changeChannel, getChannels, fetchChannels };

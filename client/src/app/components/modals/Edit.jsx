@@ -2,24 +2,26 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { closeModal as closeModalAction, addNewChannelAction } from '../../actions';
+import { closeModal as closeModalAction, editChannelAction } from '../../actions';
 
-// const mapStateToProps = (state) => {
-//   const { modalState: { isShow } } = state;
+const mapStateToProps = (state) => {
+  const { channelsState: { channels, currentChannelId } } = state;
+  const currnetChannel = channels.find((channel) => channel.id === currentChannelId);
 
-//   return { isShow };
-// };
+  return { name: currnetChannel.name, currentChannelId };
+};
 
 const mapDispatchToProps = {
   closeModal: closeModalAction,
-  addChannel: addNewChannelAction,
+  editChannel: editChannelAction,
 };
 
 class Add extends React.PureComponent {
   constructor(props) {
     super(props);
+    const { name } = this.props;
     this.state = {
-      channelName: '',
+      channelName: name,
     };
   }
 
@@ -29,15 +31,15 @@ class Add extends React.PureComponent {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { addChannel, closeModal } = this.props;
+    const { editChannel, closeModal, currentChannelId } = this.props;
     const { channelName } = this.state;
-    addChannel(channelName);
-    closeModal('add');
+    editChannel({ channelName, currentChannelId });
+    closeModal('edit');
   }
 
   onClose = () => {
     const { closeModal } = this.props;
-    closeModal('add');
+    closeModal('edit');
   }
 
   render() {
@@ -45,7 +47,7 @@ class Add extends React.PureComponent {
     return (
       <Modal.Dialog>
         <Modal.Header closeButton onClick={this.onClose}>
-          <Modal.Title>Add Channel</Modal.Title>
+          <Modal.Title>Rename Channel</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -58,15 +60,12 @@ class Add extends React.PureComponent {
 
         <Modal.Footer>
           <Button variant="secondary" onClick={this.onClose}>Close</Button>
-          <Button variant="primary" onClick={this.onSubmit}>Add</Button>
-          {/* <Button type="submit">Submit form</Button>
-            сделать поля обязательными
-            сделать невозможность добавлять канал с сущесвующим именем
-          */}
+          <Button variant="primary" onClick={this.onSubmit}>Rename</Button>
+          {/* <Button type="submit">Submit form</Button> */}
         </Modal.Footer>
       </Modal.Dialog>
     );
   }
 }
 
-export default connect(null, mapDispatchToProps)(Add);
+export default connect(mapStateToProps, mapDispatchToProps)(Add);
