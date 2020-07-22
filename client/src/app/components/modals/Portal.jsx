@@ -12,9 +12,6 @@ export default class Portal extends React.PureComponent {
   componentDidMount() {
     this.el.classList.add('fade', 'modal', 'show');
     this.el.setAttribute('style', 'display: block; padding-right: 15px;');
-    this.el.setAttribute('role', 'dialog');
-    this.el.setAttribute('aria-modal', 'true');
-    this.el.setAttribute('tabindex', '-1');
     root.appendChild(this.el);
   }
 
