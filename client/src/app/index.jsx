@@ -36,7 +36,7 @@ export default (gon) => {
       },
       modalsState: {
         addModalState: false,
-        editModalState: false,
+        renameModalState: false,
         deleteModalState: false,
       },
     },
@@ -44,9 +44,8 @@ export default (gon) => {
 
   socket.on('newMessage', (data) => store.dispatch(actions.getMessagesAction(data)));
   socket.on('newChannel', (data) => store.dispatch(actions.getChannels(data)));
-  socket.on('renameChannel', (data) => {
-    store.dispatch(actions.fetchChannels(data));
-  });
+  socket.on('renameChannel', (data) => store.dispatch(actions.fetchChannels(data)));
+  socket.on('removeChannel', (data) => store.dispatch(actions.fetchChannels(data)));
 
   render(
     <Provider store={store}>

@@ -1,40 +1,38 @@
 import React from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { closeModal as closeModalAction, editChannelAction } from '../../actions';
+import { closeModal as closeModalAction, deleteChannelAction } from '../../actions';
 
 const mapStateToProps = (state) => {
-  const { modalState: { isShow }, channelsState: { channels, currentChannelId } } = state;
-  const currnetChannel = channels.find((channel) => channel.id === currentChannelId);
+  const { channelsState: { currentChannelId, channels } } = state;
+  const currentChannel = channels.find((channel) => channel.id === currentChannelId);
 
-  return { isShow, name: currnetChannel.name };
+  return {
+    id: currentChannelId,
+    name: currentChannel.name,
+    removable: currentChannel.removable,
+  };
 };
 
 const mapDispatchToProps = {
   closeModal: closeModalAction,
-  editChannel: editChannelAction,
+  deleteChannel: deleteChannelAction,
 };
 
 class Delete extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    const { name } = this.props;
-    this.state = {
-      channelName: name,
-    };
-  }
-
-  onChange = ({ target }) => {
-    this.setState({ channelName: target.value });
-  };
-
   onSubmit = (e) => {
     e.preventDefault();
-    const { editChannel, closeModal } = this.props;
-    const { channelName } = this.state;
-    editChannel(channelName);
-    closeModal();
+    const {
+      deleteChannel,
+      closeModal,
+      id,
+      removable,
+    } = this.props;
+    if (removable) {
+      deleteChannel(id);
+      closeModal();
+    }
   }
 
   onClose = () => {
@@ -43,25 +41,23 @@ class Delete extends React.PureComponent {
   }
 
   render() {
-    const { channelName } = this.state;
+    const { name } = this.props;
     return (
       <Modal.Dialog>
         <Modal.Header closeButton>
-          <Modal.Title>Add Channel</Modal.Title>
+          <Modal.Title>Delete channel</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Control required type="text" value={channelName} placeholder="Enter new channel name" onChange={this.onChange} />
-            </Form.Group>
-          </Form>
+          Delete this channel
+          &quot;
+          {name}
+          &quot;?
         </Modal.Body>
 
         <Modal.Footer>
           <Button variant="secondary" onClick={this.onClose}>Close</Button>
-          <Button variant="primary" onClick={this.onSubmit}>Add</Button>
-          {/* <Button type="submit">Submit form</Button> */}
+          <Button variant="primary" onClick={this.onSubmit}>Delete</Button>
         </Modal.Footer>
       </Modal.Dialog>
     );

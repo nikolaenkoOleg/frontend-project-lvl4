@@ -28,15 +28,14 @@ const channelSlice = createSlice({
         getChannelsState: 'success',
       };
     },
-    editChannelRequest(state) {
-      return { ...state, editChannelState: 'request' };
+    renameChannelRequest(state) {
+      return { ...state, renameChannelState: 'request' };
     },
-    editChannelSucces(state) {
-      return { ...state, editChannelState: 'success' };
+    renameChannelSuccess(state) {
+      return { ...state, renameChannelState: 'success' };
     },
-    editChannelFailure(state, { payload }) {
-      console.log(payload);
-      return { ...state, editChannelState: 'failure' };
+    renameChannelFailure(state) {
+      return { ...state, renameChannelState: 'failure' };
     },
     fetchChannels(state, { payload: { data: { attributes } } }) {
       const { channels } = state;
@@ -46,6 +45,15 @@ const channelSlice = createSlice({
         channels: [...filteredChannels, attributes],
         editChannelState: 'success',
       };
+    },
+    deleteChannelRequest(state) {
+      return { ...state, deleteChannelState: 'request' };
+    },
+    deleteChannelSuccess(state) {
+      return { ...state, deleteChannelState: 'success' };
+    },
+    deleteChannelFailure(state) {
+      return { ...state, deleteChannelState: 'failure' };
     },
   },
 });

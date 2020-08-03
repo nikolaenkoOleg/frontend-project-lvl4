@@ -20,9 +20,12 @@ export const {
   addNewChannelRequest,
   addNewChannelSuccses,
   addNewChannelFailure,
-  editChannelRequest,
-  editChannelSuccess,
-  editChannelFailure,
+  renameChannelRequest,
+  renameChannelSuccess,
+  renameChannelFailure,
+  deleteChannelRequest,
+  deleteChannelSuccess,
+  deleteChannelFailure,
 } = channelsActions;
 
 export const {

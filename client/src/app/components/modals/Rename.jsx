@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { closeModal as closeModalAction, editChannelAction } from '../../actions';
+import { closeModal as closeModalAction, renameChannelAction } from '../../actions';
 
 const mapStateToProps = (state) => {
   const { channelsState: { channels, currentChannelId } } = state;
@@ -13,10 +13,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   closeModal: closeModalAction,
-  editChannel: editChannelAction,
+  renameChannel: renameChannelAction,
 };
 
-class Add extends React.PureComponent {
+class Rename extends React.PureComponent {
   constructor(props) {
     super(props);
     const { name } = this.props;
@@ -31,9 +31,9 @@ class Add extends React.PureComponent {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { editChannel, closeModal, currentChannelId } = this.props;
+    const { renameChannel, closeModal, currentChannelId } = this.props;
     const { channelName } = this.state;
-    editChannel({ channelName, currentChannelId });
+    renameChannel({ channelName, currentChannelId });
     closeModal('edit');
   }
 
@@ -61,11 +61,10 @@ class Add extends React.PureComponent {
         <Modal.Footer>
           <Button variant="secondary" onClick={this.onClose}>Close</Button>
           <Button variant="primary" onClick={this.onSubmit}>Rename</Button>
-          {/* <Button type="submit">Submit form</Button> */}
         </Modal.Footer>
       </Modal.Dialog>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Add);
+export default connect(mapStateToProps, mapDispatchToProps)(Rename);

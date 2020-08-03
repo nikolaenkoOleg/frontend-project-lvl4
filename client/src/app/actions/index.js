@@ -14,9 +14,12 @@ import {
   addNewChannelRequest,
   addNewChannelSuccses,
   addNewChannelFailure,
-  editChannelRequest,
-  editChannelSuccess,
-  editChannelFailure,
+  renameChannelRequest,
+  renameChannelSuccess,
+  renameChannelFailure,
+  deleteChannelRequest,
+  deleteChannelSuccess,
+  deleteChannelFailure,
 } from '../slises';
 
 export { openModal, closeModal } from '../slises';
@@ -27,13 +30,7 @@ export const sendMessageAction = (message) => async (dispatch) => {
     const { channelId } = message;
     const url = getUrl.channelMessagesPath(channelId);
 
-    await axios.post(url, {
-      data: {
-        attributes: {
-          message,
-        },
-      },
-    });
+    await axios.post(url, { data: { attributes: { message } } });
     dispatch(sendMessageSuccses());
   } catch (e) {
     dispatch(sendMessageFailure());
@@ -55,13 +52,7 @@ export const addNewChannelAction = (name) => async (dispatch) => {
   dispatch(addNewChannelRequest());
   try {
     const url = getUrl.channelsPath();
-    await axios.post(url, {
-      data: {
-        attributes: {
-          name,
-        },
-      },
-    });
+    await axios.post(url, { data: { attributes: { name } } });
 
     dispatch(addNewChannelSuccses());
   } catch (e) {
@@ -70,23 +61,27 @@ export const addNewChannelAction = (name) => async (dispatch) => {
   }
 };
 
-export const editChannelAction = ({ channelName, currentChannelId }) => async (dispatch) => {
-  console.log(channelName, currentChannelId);
-  dispatch(editChannelRequest());
+export const renameChannelAction = ({ channelName, currentChannelId }) => async (dispatch) => {
+  dispatch(renameChannelRequest());
   try {
     const url = getUrl.channelPath(currentChannelId);
-    console.log(url);
-    await axios.patch(url, {
-      data: {
-        attributes: {
-          name: channelName,
-        },
-      },
-    });
+    await axios.patch(url, { data: { attributes: { name: channelName } } });
 
-    dispatch(editChannelSuccess());
+    dispatch(renameChannelSuccess());
   } catch (e) {
-    dispatch(editChannelFailure(e));
+    dispatch(renameChannelFailure(e));
+    console.log(e);
+  }
+};
+
+export const deleteChannelAction = (id) => async (dispatch) => {
+  dispatch(deleteChannelRequest());
+  try {
+    const url = getUrl.channelsPath(id);
+    await axios.delete(url, { data: { attributes: { id } } });
+    dispatch(deleteChannelSuccess());
+  } catch (e) {
+    dispatch(deleteChannelFailure(e));
     console.log(e);
   }
 };

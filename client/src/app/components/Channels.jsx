@@ -7,7 +7,7 @@ import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { changeChannel, openModal as openModalAction } from '../actions';
 import Portal from './modals/Portal';
 import Add from './modals/Add';
-import Edit from './modals/Edit';
+import Edit from './modals/Rename';
 import Delete from './modals/Delete';
 
 const mapStateToProps = (state) => {
@@ -16,8 +16,10 @@ const mapStateToProps = (state) => {
     modalsState: { addModalState, editModalState, deleteModalState },
   } = state;
 
+  const sortedChannels = channels.slice().sort((a, b) => a.id - b.id);
+
   return {
-    channels,
+    channels: sortedChannels,
     currentChannelId,
     addModalState,
     editModalState,
