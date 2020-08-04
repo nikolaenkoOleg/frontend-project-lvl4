@@ -5,15 +5,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { changeChannel, openModal as openModalAction } from '../actions';
-import Portal from './modals/Portal';
+
 import Add from './modals/Add';
-import Edit from './modals/Rename';
+import Rename from './modals/Rename';
 import Delete from './modals/Delete';
 
 const mapStateToProps = (state) => {
   const {
     channelsState: { channels, currentChannelId },
-    modalsState: { addModalState, editModalState, deleteModalState },
+    modalsState: { addModalIsShow, renameModalIsShow, deleteModalIsShow },
   } = state;
 
   const sortedChannels = channels.slice().sort((a, b) => a.id - b.id);
@@ -21,9 +21,9 @@ const mapStateToProps = (state) => {
   return {
     channels: sortedChannels,
     currentChannelId,
-    addModalState,
-    editModalState,
-    deleteModalState,
+    addModalIsShow,
+    renameModalIsShow,
+    deleteModalIsShow,
   };
 };
 
@@ -38,72 +38,50 @@ class Channels extends React.PureComponent {
     setNewActiveChannel({ id });
   }
 
-  addNewChannelHandle = () => {
+  addModalHandle = () => {
     const { openModal } = this.props;
-    openModal('add');
+    openModal('addModal');
   }
 
-  editModalHandle = () => {
+  renameModalHandle = () => {
     const { openModal } = this.props;
-    openModal('edit');
+    openModal('renameModal');
   }
 
   deleteModalHandle = () => {
     const { openModal } = this.props;
-    openModal('delete');
-  }
-
-  getModalByState = () => {
-    const { addModalState, editModalState, deleteModalState } = this.props;
-    let modal;
-    let result;
-
-    if (addModalState) {
-      modal = <Add />;
-    }
-
-    if (editModalState) {
-      modal = <Edit />;
-    }
-
-    if (deleteModalState) {
-      modal = <Delete />;
-    }
-
-    if (modal) {
-      result = (
-        <>
-          <div className="fade modal-backdrop show" />
-          <Portal>
-            {modal}
-          </Portal>
-        </>
-      );
-
-      return result;
-    }
-
-    return null;
+    openModal('deleteModal');
   }
 
   render() {
-    const { channels, currentChannelId } = this.props;
-    const modal = this.getModalByState();
+    const {
+      channels,
+      currentChannelId,
+      addModalIsShow,
+      renameModalIsShow,
+      deleteModalIsShow,
+    } = this.props;
+
+    const addModal = addModalIsShow ? (<Add />) : null;
+    const renameModal = renameModalIsShow ? (<Rename />) : null;
+    const deleteModal = deleteModalIsShow ? (<Delete />) : null;
 
     return (
       <div className="col-3 border-right">
         <div className="d-flex mb-2">
           <span>Channels</span>
-          <button type="button" className="btn btn-link p-0 ml-auto" onClick={this.addNewChannelHandle}>
+          <button type="button" className="btn btn-link p-0 ml-auto" onClick={this.addModalHandle}>
             <FontAwesomeIcon icon={faPlus} />
           </button>
           <button type="button" className="btn btn-link p-0 ml-4" onClick={this.deleteModalHandle}>
             <FontAwesomeIcon icon={faTrash} />
           </button>
-          <button type="button" className="btn btn-link p-0 ml-4" onClick={this.editModalHandle}>
+          <button type="button" className="btn btn-link p-0 ml-4" onClick={this.renameModalHandle}>
             <FontAwesomeIcon icon={faEdit} />
           </button>
-          {modal}
+          {addModal}
+          {renameModal}
+          {deleteModal}
         </div>
         <ul className="nav flex-column nav-pills nav-fill">
           {channels.map(({ id, name }) => (

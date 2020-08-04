@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import messagesState, { actions as messagesActions } from './messagesSlice';
 import channelsState, { actions as channelsActions } from './channelsSlice';
-import modalsState, { actions as modalActions } from './modalSlice';
+import modalsState, { actions as modalActions } from './modalsSlice';
 
 export const {
   sendMessageRequest,
@@ -17,6 +17,7 @@ export const {
   changeChannel,
   getChannels,
   fetchChannels,
+  deleteChannel,
   addNewChannelRequest,
   addNewChannelSuccses,
   addNewChannelFailure,

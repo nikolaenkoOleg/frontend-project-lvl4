@@ -31,35 +31,40 @@ class Delete extends React.PureComponent {
     } = this.props;
     if (removable) {
       deleteChannel(id);
-      closeModal();
+      closeModal('deleteModal');
     }
   }
 
   onClose = () => {
     const { closeModal } = this.props;
-    closeModal();
+    closeModal('deleteModal');
   }
 
   render() {
     const { name } = this.props;
     return (
-      <Modal.Dialog>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete channel</Modal.Title>
-        </Modal.Header>
+      <>
+        <div className="fade modal-backdrop show" />
+        <div className="fade modal show" style={{ display: 'block', paddingRight: '15px' }}>
+          <Modal.Dialog>
+            <Modal.Header closeButton onClick={this.onClose}>
+              <Modal.Title>Delete channel</Modal.Title>
+            </Modal.Header>
 
-        <Modal.Body>
-          Delete this channel
-          &quot;
-          {name}
-          &quot;?
-        </Modal.Body>
+            <Modal.Body>
+              Delete this channel
+              &quot;
+              {name}
+              &quot;?
+            </Modal.Body>
 
-        <Modal.Footer>
-          <Button variant="secondary" onClick={this.onClose}>Close</Button>
-          <Button variant="primary" onClick={this.onSubmit}>Delete</Button>
-        </Modal.Footer>
-      </Modal.Dialog>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.onClose}>Close</Button>
+              <Button variant="primary" onClick={this.onSubmit}>Delete</Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </div>
+      </>
     );
   }
 }

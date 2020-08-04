@@ -50,7 +50,7 @@ const InputField = (props) => {
 
   return (
     <div className="mt-auto">
-      <form noValidate onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="form-group">
           <div className="input-group">
             <input

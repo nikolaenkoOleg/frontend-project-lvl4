@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const keyMapping = {
-  add: 'addModalState',
-  edit: 'editModalState',
-  delete: 'deleteModalState',
+  addModal: 'addModalIsShow',
+  renameModal: 'renameModalIsShow',
+  deleteModal: 'deleteModalIsShow',
 };
 
 const modalsSlice = createSlice({
   name: 'modal',
   initialState: {
-    isShow: false,
+    addModalIsShow: false,
+    renameModalIsShow: false,
+    deleteModalIsShow: false,
   },
   reducers: {
     openModal(state, { payload }) {

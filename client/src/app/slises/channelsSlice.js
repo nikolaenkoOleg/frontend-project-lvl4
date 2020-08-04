@@ -55,6 +55,9 @@ const channelSlice = createSlice({
     deleteChannelFailure(state) {
       return { ...state, deleteChannelState: 'failure' };
     },
+    deleteChannel(state, { payload: { data: { id } } }) {
+      state.channels = state.channels.filter((c) => c.id !== id);
+    },
   },
 });
 

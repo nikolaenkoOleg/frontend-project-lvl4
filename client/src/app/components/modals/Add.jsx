@@ -1,72 +1,93 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { useFormik } from 'formik';
 
 import { closeModal as closeModalAction, addNewChannelAction } from '../../actions';
 
-// const mapStateToProps = (state) => {
-//   const { modalState: { isShow } } = state;
+const mapStatetoProps = (state) => {
+  const { channelsState: { channels } } = state;
+  const channelsNames = channels.map((channel) => channel.name);
 
-//   return { isShow };
-// };
+  return { channelsNames };
+};
 
 const mapDispatchToProps = {
   closeModal: closeModalAction,
   addChannel: addNewChannelAction,
 };
 
-class Add extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      channelName: '',
-    };
+const validateFields = (props) => (values) => {
+  const { channelsNames } = props;
+  const { channelName } = values;
+  const error = {};
+
+  if (!channelName) {
+    error.channelName = 'Required';
   }
 
-  onChange = ({ target }) => {
-    this.setState({ channelName: target.value });
+  if (channelsNames.includes(channelName)) {
+    error.channelName = 'Channel name should not be duplicated';
+  }
+
+  return error;
+};
+
+const Add = (props) => {
+  const formik = useFormik({
+    initialValues: {
+      channelName: '',
+    },
+    validate: validateFields(props),
+    onSubmit: (values, { resetForm }) => {
+      const { addChannel, closeModal } = props;
+      const { channelName } = values;
+      addChannel(channelName);
+      resetForm({
+        channelName: '',
+      });
+      closeModal('addModal');
+    },
+  });
+
+  const onClose = () => {
+    const { closeModal } = props;
+    closeModal('addModal');
   };
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    const { addChannel, closeModal } = this.props;
-    const { channelName } = this.state;
-    addChannel(channelName);
-    closeModal('add');
-  }
+  return (
+    <>
+      <div className="fade modal-backdrop show" />
+      <div className="fade modal show" style={{ display: 'block', paddingRight: '15px' }}>
+        <Modal.Dialog>
+          <Modal.Header closeButton onClick={onClose}>
+            <Modal.Title>Add Channel</Modal.Title>
+          </Modal.Header>
 
-  onClose = () => {
-    const { closeModal } = this.props;
-    closeModal('add');
-  }
+          <Modal.Body>
+            <Form onSubmit={formik.handleSubmit}>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Control
+                  required
+                  type="text"
+                  name="channelName"
+                  value={formik.values.channelName}
+                  placeholder="Enter new channel name"
+                  onChange={formik.handleChange}
+                />
+              </Form.Group>
+            </Form>
+            {formik.errors.channelName ? <div className="d-block invalid-feedback">{formik.errors.channelName}</div> : null}
+          </Modal.Body>
 
-  render() {
-    const { channelName } = this.state;
-    return (
-      <Modal.Dialog>
-        <Modal.Header closeButton onClick={this.onClose}>
-          <Modal.Title>Add Channel</Modal.Title>
-        </Modal.Header>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={onClose}>Close</Button>
+            <Button variant="primary" onClick={formik.handleSubmit}>Add</Button>
+          </Modal.Footer>
+        </Modal.Dialog>
+      </div>
+    </>
+  );
+};
 
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Control required type="text" value={channelName} placeholder="Enter new channel name" onChange={this.onChange} />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={this.onClose}>Close</Button>
-          <Button variant="primary" onClick={this.onSubmit}>Add</Button>
-          {/* <Button type="submit">Submit form</Button>
-            сделать поля обязательными
-            сделать невозможность добавлять канал с сущесвующим именем
-          */}
-        </Modal.Footer>
-      </Modal.Dialog>
-    );
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Add);
+export default connect(mapStatetoProps, mapDispatchToProps)(Add);

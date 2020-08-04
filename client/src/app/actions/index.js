@@ -5,6 +5,7 @@ import {
   changeChannel,
   getChannels,
   fetchChannels,
+  deleteChannel,
   sendMessageRequest,
   sendMessageSuccses,
   sendMessageFailure,
@@ -74,11 +75,11 @@ export const renameChannelAction = ({ channelName, currentChannelId }) => async 
   }
 };
 
-export const deleteChannelAction = (id) => async (dispatch) => {
+export const deleteChannelAction = (channelId) => async (dispatch) => {
   dispatch(deleteChannelRequest());
   try {
-    const url = getUrl.channelsPath(id);
-    await axios.delete(url, { data: { attributes: { id } } });
+    const url = getUrl.channelPath(channelId);
+    await axios.delete(url, { data: { attributes: { id: channelId } } });
     dispatch(deleteChannelSuccess());
   } catch (e) {
     dispatch(deleteChannelFailure(e));
@@ -86,4 +87,9 @@ export const deleteChannelAction = (id) => async (dispatch) => {
   }
 };
 
-export { changeChannel, getChannels, fetchChannels };
+export {
+  changeChannel,
+  getChannels,
+  fetchChannels,
+  deleteChannel,
+};

@@ -34,18 +34,13 @@ export default (gon) => {
         currentChannelId: gon.currentChannelId,
         addingChannelState: 'none',
       },
-      modalsState: {
-        addModalState: false,
-        renameModalState: false,
-        deleteModalState: false,
-      },
     },
   });
 
   socket.on('newMessage', (data) => store.dispatch(actions.getMessagesAction(data)));
   socket.on('newChannel', (data) => store.dispatch(actions.getChannels(data)));
   socket.on('renameChannel', (data) => store.dispatch(actions.fetchChannels(data)));
-  socket.on('removeChannel', (data) => store.dispatch(actions.fetchChannels(data)));
+  socket.on('removeChannel', (data) => store.dispatch(actions.deleteChannel(data)));
 
   render(
     <Provider store={store}>
