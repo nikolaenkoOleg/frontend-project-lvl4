@@ -5,7 +5,6 @@ import cn from 'classnames';
 
 import { sendMessageAction } from '../actions';
 import UserContext from '../context';
-import Loader from './Loader';
 
 const mapStateToProps = (state) => {
   const { channelsState: { currentChannelId }, messagesState: { sendMessageState } } = state;
@@ -48,6 +47,10 @@ const InputField = (props) => {
     },
   });
 
+  const loader = sendMessageState.type === 'request' ? (
+    <div className="spinner-border ml-2 mt-1" role="status" />
+  ) : null;
+
   return (
     <div className="mt-auto">
       <form onSubmit={formik.handleSubmit}>
@@ -65,7 +68,7 @@ const InputField = (props) => {
               onChange={formik.handleChange}
               value={formik.values.message}
             />
-            <Loader show={sendMessageState.type === 'request'} />
+            {loader}
             {formik.errors.message ? <div className="d-block invalid-feedback">{formik.errors.message}</div> : null}
             {sendMessageState.type === 'error' ? <div className="d-block invalid-feedback">{sendMessageState.text}</div> : null}
           </div>
