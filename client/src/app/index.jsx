@@ -8,9 +8,7 @@ import io from 'socket.io-client';
 
 import Container from './components/Container';
 import Channels from './components/Channels';
-import Workspace from './components/Workspace';
 import MessagesBox from './components/MessagesBox';
-import InputField from './components/InputField';
 
 import rootReduser from './slises';
 import { UserProvider } from './context';
@@ -46,12 +44,9 @@ export default (gon) => {
     <Provider store={store}>
       <Container>
         <Channels />
-        <Workspace>
+        <UserProvider value={user}>
           <MessagesBox />
-          <UserProvider value={user}>
-            <InputField />
-          </UserProvider>
-        </Workspace>
+        </UserProvider>
       </Container>
     </Provider>,
     document.querySelector('.container'),
