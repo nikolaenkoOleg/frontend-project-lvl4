@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { actions as channelsActions } from './channelsSlice';
+
 const messagesSlice = createSlice({
   name: 'messages',
   initialState: {
@@ -30,6 +32,11 @@ const messagesSlice = createSlice({
     },
     getMessagesFailure(state) {
       return { ...state, getMessagesState: { type: 'error', text: 'Network error' } };
+    },
+  },
+  extraReducers: {
+    [channelsActions.deleteChannel]: (state, { payload: { data: { id } } }) => {
+      state.messages = state.messages.filter((message) => message.channelId !== id);
     },
   },
 });
