@@ -1,24 +1,12 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { closeModal as closeModalAction, addNewChannelAction } from '../../actions';
+import { closeModal, addNewChannelAction as addChannel } from '../../actions';
 
-const mapStatetoProps = (state) => {
-  const { channelsState: { channels } } = state;
-  const channelsNames = channels.map((channel) => channel.name);
-
-  return { channelsNames };
-};
-
-const mapDispatchToProps = {
-  closeModal: closeModalAction,
-  addChannel: addNewChannelAction,
-};
-
-const validateFields = (props) => (values) => {
-  const { channelsNames } = props;
+const validateFields = (store) => (values) => {
+  const { channelsNames } = store;
   const { channelName } = values;
   const error = {};
 
@@ -33,26 +21,33 @@ const validateFields = (props) => (values) => {
   return error;
 };
 
-const Add = (props) => {
+export default () => {
+  const store = useSelector((state) => {
+    const { channelsState: { channels } } = state;
+    const channelsNames = channels.map((channel) => channel.name);
+
+    return { channelsNames };
+  });
+
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
-    validate: validateFields(props),
+    validate: validateFields(store),
     onSubmit: (values, { resetForm }) => {
-      const { addChannel, closeModal } = props;
       const { channelName } = values;
-      addChannel(channelName);
+      dispatch(addChannel(channelName));
       resetForm({
         channelName: '',
       });
-      closeModal('addModal');
+      dispatch(closeModal('addModal'));
     },
   });
 
   const onClose = () => {
-    const { closeModal } = props;
-    closeModal('addModal');
+    dispatch(closeModal('addModal'));
   };
 
   return (
@@ -89,5 +84,3 @@ const Add = (props) => {
     </>
   );
 };
-
-export default connect(mapStatetoProps, mapDispatchToProps)(Add);

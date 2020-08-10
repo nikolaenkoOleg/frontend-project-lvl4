@@ -1,26 +1,11 @@
 import React, { useContext } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { useFormik } from 'formik';
 import cn from 'classnames';
 
-import { sendMessageAction } from '../actions';
+import { sendMessageAction as sendMessage } from '../actions';
 import UserContext from '../context';
-
-const mapStateToProps = (state) => {
-  const {
-    messagesState: { messages, sendMessageState },
-    channelsState: { currentChannelId },
-  } = state;
-
-  const currentChannelMessages = messages.filter(({ channelId }) => currentChannelId === channelId);
-
-  return { messages: currentChannelMessages, sendMessageState, currentChannelId };
-};
-
-const mapDispatchToProps = {
-  sendMessage: sendMessageAction,
-};
 
 const validate = (values) => {
   const errors = {};
@@ -32,11 +17,22 @@ const validate = (values) => {
   return errors;
 };
 
-const MessagesBox = (props) => {
-  const { sendMessageState } = props;
+export default () => {
   const user = useContext(UserContext);
+  const store = useSelector((state) => {
+    const {
+      messagesState: { messages, sendMessageState },
+      channelsState: { currentChannelId },
+    } = state;
 
-  const { messages } = props;
+    const currentChannelMessages = messages
+      .filter(({ channelId }) => currentChannelId === channelId);
+
+    return { messages: currentChannelMessages, sendMessageState, currentChannelId };
+  });
+  const { messages, sendMessageState, currentChannelId } = store;
+
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -44,11 +40,10 @@ const MessagesBox = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-      const { sendMessage } = props;
-      const channelId = props.currentChannelId;
+      const channelId = currentChannelId;
       const message = { channelId, author: user, text: values.message };
 
-      sendMessage(message);
+      dispatch(sendMessage(message));
       resetForm({
         message: '',
       });
@@ -114,5 +109,3 @@ const MessagesBox = (props) => {
     </div>
   );
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(MessagesBox);

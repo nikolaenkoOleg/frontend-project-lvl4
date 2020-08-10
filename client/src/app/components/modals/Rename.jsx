@@ -1,21 +1,9 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { closeModal as closeModalAction, renameChannelAction } from '../../actions';
-
-const mapStateToProps = (state) => {
-  const { channelsState: { channels, currentChannelId } } = state;
-  const currnetChannel = channels.find((channel) => channel.id === currentChannelId);
-
-  return { name: currnetChannel.name, currentChannelId };
-};
-
-const mapDispatchToProps = {
-  closeModal: closeModalAction,
-  renameChannel: renameChannelAction,
-};
+import { closeModal, renameChannelAction as renameChannel } from '../../actions';
 
 const validateField = (values) => {
   const { channelName } = values;
@@ -28,26 +16,32 @@ const validateField = (values) => {
   return error;
 };
 
-const Rename = (props) => {
-  const { name } = props;
+export default () => {
+  const store = useSelector((state) => {
+    const { channelsState: { channels, currentChannelId } } = state;
+    const currnetChannel = channels.find((channel) => channel.id === currentChannelId);
+
+    return { name: currnetChannel.name, currentChannelId };
+  });
+  const { name, currentChannelId } = store;
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       channelName: name,
     },
     validate: validateField,
     onSubmit: (values, { resetForm }) => {
-      const { renameChannel, closeModal, currentChannelId } = props;
-      renameChannel({ channelName: values.channelName, currentChannelId });
+      dispatch(renameChannel({ channelName: values.channelName, currentChannelId }));
       resetForm({
         channelName: '',
       });
-      closeModal('renameModal');
+      dispatch(closeModal('renameModal'));
     },
   });
 
   const onClose = () => {
-    const { closeModal } = props;
-    closeModal('renameModal');
+    dispatch(closeModal('renameModal'));
   };
 
   return (
@@ -84,5 +78,3 @@ const Rename = (props) => {
     </>
   );
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Rename);
