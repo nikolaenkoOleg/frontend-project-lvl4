@@ -10,7 +10,7 @@ import Container from './components/Container';
 import Channels from './components/Channels';
 import MessagesBox from './components/MessagesBox';
 
-import rootReduser from './slises';
+import rootReducer from './slises';
 import { UserProvider } from './context';
 import * as actions from './actions';
 
@@ -21,7 +21,7 @@ export default (gon) => {
   const socket = io();
 
   const store = configureStore({
-    reducer: rootReduser,
+    reducer: rootReducer,
     preloadedState: {
       messagesState: {
         messages: gon.messages,
