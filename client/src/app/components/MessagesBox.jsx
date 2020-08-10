@@ -3,19 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { uniqueId } from 'lodash';
 import { useFormik } from 'formik';
 import cn from 'classnames';
+import * as Yup from 'yup';
 
 import { sendMessageAction as sendMessage } from '../actions';
 import UserContext from '../context';
 
-const validate = (values) => {
-  const errors = {};
-
-  if (!values.message) {
-    errors.message = 'Required';
-  }
-
-  return errors;
-};
+const validationSchema = Yup.object({
+  message: Yup.string().required('Required'),
+});
 
 export default () => {
   const user = useContext(UserContext);
@@ -31,17 +26,21 @@ export default () => {
     return { messages: currentChannelMessages, sendMessageState, currentChannelId };
   });
   const { messages, sendMessageState, currentChannelId } = store;
-
   const dispatch = useDispatch();
 
-  const formik = useFormik({
+  const {
+    handleChange,
+    handleSubmit,
+    errors,
+    values,
+  } = useFormik({
     initialValues: {
       message: '',
     },
-    validate,
-    onSubmit: (values, { resetForm }) => {
+    validationSchema,
+    onSubmit: (value, { resetForm }) => {
       const channelId = currentChannelId;
-      const message = { channelId, author: user, text: values.message };
+      const message = { channelId, author: user, text: value.message };
 
       dispatch(sendMessage(message));
       resetForm({
@@ -74,7 +73,7 @@ export default () => {
             }
           </div>
           <div className="mt-auto">
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <div className="input-group">
                   <input
@@ -84,15 +83,15 @@ export default () => {
                     disabled={sendMessageState.type === 'request'}
                     className={cn({
                       'form-control': true,
-                      'is-invalid': formik.errors.message !== undefined || sendMessageState.type === 'error',
+                      'is-invalid': errors.message !== undefined || sendMessageState.type === 'error',
                     })}
-                    onChange={formik.handleChange}
-                    value={formik.values.message}
+                    onChange={handleChange}
+                    value={values.message}
                   />
                   {loader}
                   {
-                    formik.errors.message
-                      ? <div className="d-block invalid-feedback">{formik.errors.message}</div>
+                    errors.message
+                      ? <div className="d-block invalid-feedback">{errors.message}</div>
                       : null
                   }
                   {
