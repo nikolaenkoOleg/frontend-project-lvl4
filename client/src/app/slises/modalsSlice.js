@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 const keyMapping = {
@@ -16,11 +17,11 @@ const modalsSlice = createSlice({
   reducers: {
     openModal(state, { payload }) {
       const key = keyMapping[payload];
-      return { ...state, [key]: true };
+      state[key] = true;
     },
     closeModal(state, { payload }) {
       const key = keyMapping[payload];
-      return { ...state, [key]: false };
+      state[key] = false;
     },
   },
 });

@@ -15,7 +15,6 @@ const mapStateToProps = (state) => {
     channelsState: { channels, currentChannelId },
     modalsState: { addModalIsShow, renameModalIsShow, deleteModalIsShow },
   } = state;
-
   const sortedChannels = channels.slice().sort((a, b) => a.id - b.id);
 
   return {

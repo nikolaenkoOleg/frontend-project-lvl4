@@ -10,54 +10,46 @@ const channelSlice = createSlice({
   },
   reducers: {
     changeChannel(state, { payload: { id } }) {
-      return { ...state, currentChannelId: id };
-    },
-    addNewChannelRequest(state) {
-      return { ...state, addingChannelState: 'request' };
-    },
-    addNewChannelSuccses(state) {
-      return { ...state, addingChannelState: 'success' };
-    },
-    addNewChannelFailure(state) {
-      return { ...state, addingChannelState: 'error' };
+      state.currentChannelId = id;
     },
     getChannels(state, { payload: { data: { attributes } } }) {
-      const { channels } = state;
-      return {
-        ...state,
-        channels: [...channels, attributes],
-        getChannelsState: 'success',
-      };
-    },
-    renameChannelRequest(state) {
-      return { ...state, renameChannelState: 'request' };
-    },
-    renameChannelSuccess(state) {
-      return { ...state, renameChannelState: 'success' };
-    },
-    renameChannelFailure(state) {
-      return { ...state, renameChannelState: 'failure' };
+      const newChannel = attributes;
+      state.channels.push(newChannel);
     },
     fetchChannels(state, { payload: { data: { attributes } } }) {
-      const { channels } = state;
-      const filteredChannels = channels.filter((channel) => channel.id !== attributes.id);
-      return {
-        ...state,
-        channels: [...filteredChannels, attributes],
-        editChannelState: 'success',
-      };
-    },
-    deleteChannelRequest(state) {
-      return { ...state, deleteChannelState: 'request' };
-    },
-    deleteChannelSuccess(state) {
-      return { ...state, deleteChannelState: 'success' };
-    },
-    deleteChannelFailure(state) {
-      return { ...state, deleteChannelState: 'failure' };
+      const filteredChannels = state.channels.filter((channel) => channel.id !== attributes.id);
+      const newChannel = attributes;
+      state.channels = filteredChannels.concat(newChannel);
     },
     deleteChannel(state, { payload: { data: { id } } }) {
       state.channels = state.channels.filter((c) => c.id !== id);
+    },
+    addNewChannelRequest(state) {
+      state.addingChannelState = 'request';
+    },
+    addNewChannelSuccses(state) {
+      state.addingChannelState = 'success';
+    },
+    addNewChannelFailure(state) {
+      state.addingChannelState = 'error';
+    },
+    renameChannelRequest(state) {
+      state.renameChannelState = 'request';
+    },
+    renameChannelSuccess(state) {
+      state.renameChannelState = 'success';
+    },
+    renameChannelFailure(state) {
+      state.renameChannelState = 'failure';
+    },
+    deleteChannelRequest(state) {
+      state.deleteChannelState = 'request';
+    },
+    deleteChannelSuccess(state) {
+      state.deleteChannelState = 'success';
+    },
+    deleteChannelFailure(state) {
+      state.deleteChannelState = 'failure';
     },
   },
 });
