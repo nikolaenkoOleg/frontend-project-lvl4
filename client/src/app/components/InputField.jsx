@@ -7,11 +7,10 @@ import * as Yup from 'yup';
 import { sendMessageAction as sendMessage } from '../actions';
 import UserContext from '../context';
 
-const validationSchema = Yup.object({
-  message: Yup.string().required('Required'),
-});
-
 export default () => {
+  const validationSchema = Yup.object({
+    message: Yup.string().required(),
+  });
   const user = useContext(UserContext);
   const store = useSelector((state) => {
     const {
@@ -24,25 +23,17 @@ export default () => {
   const { sendMessageState, currentChannelId } = store;
   const dispatch = useDispatch();
 
-  const loader = sendMessageState.type === 'request' ? (
-    <div className="spinner-border ml-2 mt-1" role="status" />
-  ) : null;
-
-  const {
-    handleChange,
-    handleSubmit,
-    errors,
-    values,
-  } = useFormik({
+  const formik = useFormik({
     initialValues: {
       message: '',
     },
     validationSchema,
-    onSubmit: (value, { resetForm }) => {
+    onSubmit: async (value, { resetForm, setSubmitting }) => {
       const channelId = currentChannelId;
       const message = { channelId, author: user, text: value.message };
 
-      dispatch(sendMessage(message));
+      await dispatch(sendMessage(message));
+      setSubmitting(false);
       resetForm({
         message: '',
       });
@@ -51,25 +42,25 @@ export default () => {
 
   return (
     <div className="mt-auto">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="form-group">
           <div className="input-group">
             <input
               type="text"
               id="message"
               name="message"
-              disabled={sendMessageState.type === 'request'}
+              disabled={formik.isSubmitting}
               className={cn({
                 'form-control': true,
-                'is-invalid': errors.message !== undefined || sendMessageState.type === 'error',
+                'is-invalid': formik.errors.message || sendMessageState.type === 'error',
               })}
-              onChange={handleChange}
-              value={values.message}
+              onChange={formik.handleChange}
+              value={formik.values.message}
             />
-            {loader}
+            { formik.isSubmitting ? <div className="spinner-border ml-2 mt-1" role="status" /> : null }
             {
-              errors.message
-                ? <div className="d-block invalid-feedback">{errors.message}</div>
+              formik.errors.message
+                ? <div className="d-block invalid-feedback">{formik.errors.message}</div>
                 : null
             }
             {

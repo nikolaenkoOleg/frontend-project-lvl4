@@ -24,9 +24,10 @@ export default () => {
       channelName: '',
     },
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       const { channelName } = values;
-      dispatch(addChannel(channelName));
+      await dispatch(addChannel(channelName));
+      setSubmitting(false);
       resetForm({
         channelName: '',
       });
@@ -35,6 +36,9 @@ export default () => {
   });
 
   const onClose = () => {
+    if (formik.isSubmitting) {
+      return;
+    }
     dispatch(closeModal('addModal'));
   };
 
@@ -57,6 +61,7 @@ export default () => {
                   value={formik.values.channelName}
                   placeholder="Enter new channel name"
                   onChange={formik.handleChange}
+                  disabled={formik.isSubmitting}
                 />
               </Form.Group>
             </Form>
@@ -64,8 +69,20 @@ export default () => {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={onClose}>Close</Button>
-            <Button variant="primary" onClick={formik.handleSubmit}>Add</Button>
+            <Button
+              variant="secondary"
+              onClick={onClose}
+              disabled={formik.isSubmitting}
+            >
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={formik.handleSubmit}
+              disabled={formik.isSubmitting}
+            >
+              {formik.isSubmitting ? 'Loading...' : 'Add'}
+            </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </div>

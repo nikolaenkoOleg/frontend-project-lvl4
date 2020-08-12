@@ -25,8 +25,9 @@ export default () => {
       channelName: name,
     },
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
-      dispatch(renameChannel({ channelName: values.channelName, currentChannelId }));
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      await dispatch(renameChannel({ channelName: values.channelName, currentChannelId }));
+      setSubmitting(false);
       resetForm({
         channelName: '',
       });
@@ -35,6 +36,9 @@ export default () => {
   });
 
   const onClose = () => {
+    if (formik.isSubmitting) {
+      return;
+    }
     dispatch(closeModal('renameModal'));
   };
 
@@ -57,6 +61,7 @@ export default () => {
                   value={formik.values.channelName}
                   placeholder="Enter new channel name"
                   onChange={formik.handleChange}
+                  disabled={formik.isSubmitting}
                 />
               </Form.Group>
             </Form>
@@ -64,8 +69,20 @@ export default () => {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={onClose}>Close</Button>
-            <Button variant="primary" onClick={formik.handleSubmit}>Rename</Button>
+            <Button
+              variant="secondary"
+              onClick={onClose}
+              disabled={formik.isSubmitting}
+            >
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={formik.handleSubmit}
+              disabled={formik.isSubmitting}
+            >
+              {formik.isSubmitting ? 'Loading...' : 'Rename'}
+            </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </div>
