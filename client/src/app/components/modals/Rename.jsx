@@ -2,19 +2,13 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import { closeModal, renameChannelAction as renameChannel } from '../../actions';
 
-const validateField = (values) => {
-  const { channelName } = values;
-  const error = {};
-
-  if (!channelName) {
-    error.channelName = 'This field should not be empty';
-  }
-
-  return error;
-};
+const validationSchema = Yup.object({
+  channelName: Yup.string().required(),
+});
 
 export default () => {
   const store = useSelector((state) => {
@@ -30,7 +24,7 @@ export default () => {
     initialValues: {
       channelName: name,
     },
-    validate: validateField,
+    validationSchema,
     onSubmit: (values, { resetForm }) => {
       dispatch(renameChannel({ channelName: values.channelName, currentChannelId }));
       resetForm({

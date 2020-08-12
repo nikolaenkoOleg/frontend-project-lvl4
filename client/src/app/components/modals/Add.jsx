@@ -2,24 +2,9 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import { closeModal, addNewChannelAction as addChannel } from '../../actions';
-
-const validateFields = (store) => (values) => {
-  const { channelsNames } = store;
-  const { channelName } = values;
-  const error = {};
-
-  if (!channelName) {
-    error.channelName = 'Required';
-  }
-
-  if (channelsNames.includes(channelName)) {
-    error.channelName = 'Channel name should not be duplicated';
-  }
-
-  return error;
-};
 
 export default () => {
   const store = useSelector((state) => {
@@ -28,14 +13,17 @@ export default () => {
 
     return { channelsNames };
   });
-
   const dispatch = useDispatch();
+
+  const validationSchema = Yup.object({
+    channelName: Yup.string().required().notOneOf(store.channelsNames),
+  });
 
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
-    validate: validateFields(store),
+    validationSchema,
     onSubmit: (values, { resetForm }) => {
       const { channelName } = values;
       dispatch(addChannel(channelName));
