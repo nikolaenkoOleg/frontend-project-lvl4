@@ -9,7 +9,7 @@ import UserContext from '../context';
 
 export default () => {
   const validationSchema = Yup.object({
-    message: Yup.string().required(),
+    message: Yup.string().required('Required field'),
   });
   const user = useContext(UserContext);
   const store = useSelector((state) => {
@@ -44,7 +44,7 @@ export default () => {
     <div className="mt-auto">
       <form onSubmit={formik.handleSubmit}>
         <div className="form-group">
-          <div className="input-group">
+          <div className="input-group mb-3">
             <input
               type="text"
               id="message"
@@ -52,7 +52,7 @@ export default () => {
               disabled={formik.isSubmitting}
               className={cn({
                 'form-control': true,
-                'is-invalid': formik.errors.message || sendMessageState.type === 'error',
+                'is-invalid': !!formik.errors.message,
               })}
               onChange={formik.handleChange}
               value={formik.values.message}
@@ -63,12 +63,12 @@ export default () => {
                 ? <div className="d-block invalid-feedback">{formik.errors.message}</div>
                 : null
             }
-            {
-              sendMessageState.type === 'error'
-                ? <div className="d-block invalid-feedback">{sendMessageState.text}</div>
-                : null
-            }
           </div>
+          {
+            sendMessageState.type === 'error'
+              ? <div className="alert alert-warning">Network error</div>
+              : null
+          }
         </div>
       </form>
     </div>
