@@ -6,9 +6,7 @@ import coockies from 'js-cookie';
 import faker from 'faker';
 import io from 'socket.io-client';
 
-import Container from './components/Container';
-import Channels from './components/Channels';
-import MessagesBox from './components/MessagesBox';
+import App from './components/App';
 
 import rootReducer from './slises';
 import { UserProvider } from './context';
@@ -42,12 +40,9 @@ export default (gon) => {
 
   render(
     <Provider store={store}>
-      <Container>
-        <Channels />
-        <UserProvider value={user}>
-          <MessagesBox />
-        </UserProvider>
-      </Container>
+      <UserProvider value={user}>
+        <App />
+      </UserProvider>
     </Provider>,
     document.querySelector('.container'),
   );
