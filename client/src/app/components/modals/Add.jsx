@@ -69,7 +69,7 @@ export default () => {
                 />
               </Form.Group>
             </Form>
-            {formik.errors.channelName ? <div className="d-block invalid-feedback">{formik.errors.channelName}</div> : null}
+            { formik.errors.channelName && <div className="d-block invalid-feedback">{formik.errors.channelName}</div> }
           </Modal.Body>
 
           <Modal.Footer>
