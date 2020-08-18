@@ -3,11 +3,14 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import i18next from 'i18next';
 
 import { closeModal, renameChannelAction as renameChannel } from '../../actions';
 
 const validationSchema = Yup.object({
-  channelName: Yup.string().required(),
+  channelName: Yup
+    .string()
+    .required(i18next.t('errors.required')),
 });
 
 export default () => {

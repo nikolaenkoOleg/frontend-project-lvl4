@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import i18next from 'i18next';
 
 import { closeModal, addNewChannelAction as addChannel } from '../../actions';
 
@@ -16,7 +17,10 @@ export default () => {
   const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
-    channelName: Yup.string().required().notOneOf(store.channelsNames),
+    channelName: Yup
+      .string()
+      .required(i18next.t('errors.required'))
+      .notOneOf(store.channelsNames),
   });
 
   const formik = useFormik({

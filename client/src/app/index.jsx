@@ -5,14 +5,23 @@ import { Provider } from 'react-redux';
 import coockies from 'js-cookie';
 import faker from 'faker';
 import io from 'socket.io-client';
+import i18next from 'i18next';
 
 import App from './components/App';
 
 import rootReducer from './slises';
 import { UserProvider } from './context';
 import * as actions from './actions';
+import en from './locales/en';
 
 export default (gon) => {
+  i18next.init({
+    lng: 'en',
+    resources: {
+      en,
+    },
+  });
+
   coockies.set('user', faker.name.findName());
   const user = coockies.get('user');
 

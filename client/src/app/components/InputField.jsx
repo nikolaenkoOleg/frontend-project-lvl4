@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import cn from 'classnames';
 import * as Yup from 'yup';
+import i18next from 'i18next';
 
 import { sendMessageAction as sendMessage } from '../actions';
 import UserContext from '../context';
 
 export default () => {
   const validationSchema = Yup.object({
-    message: Yup.string().required('Required field'),
+    message: Yup.string().required(i18next.t('errors.required')),
   });
   const user = useContext(UserContext);
   const store = useSelector((state) => {
