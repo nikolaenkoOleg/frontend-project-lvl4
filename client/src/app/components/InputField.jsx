@@ -57,18 +57,10 @@ export default () => {
               onChange={formik.handleChange}
               value={formik.values.message}
             />
-            { formik.isSubmitting ? <div className="spinner-border ml-2 mt-1" role="status" /> : null }
-            {
-              formik.errors.message
-                ? <div className="d-block invalid-feedback">{formik.errors.message}</div>
-                : null
-            }
+            { formik.isSubmitting && <div className="spinner-border ml-2 mt-1" role="status" /> }
+            { formik.errors.message && <div className="d-block invalid-feedback">{formik.errors.message}</div> }
           </div>
-          {
-            sendMessageState.type === 'error'
-              ? <div className="alert alert-warning">Network error</div>
-              : null
-          }
+          { sendMessageState.type === 'error' && <div className="alert alert-warning">Network error</div> }
         </div>
       </form>
     </div>
