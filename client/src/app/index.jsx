@@ -35,7 +35,7 @@ export default (gon) => {
     },
   });
 
-  socket.on('newMessage', (data) => store.dispatch(actions.getMessagesAction(data)));
+  socket.on('newMessage', (data) => store.dispatch(actions.loadMessagesAction(data)));
   socket.on('newChannel', (data) => store.dispatch(actions.getChannels(data)));
   socket.on('renameChannel', (data) => store.dispatch(actions.fetchChannels(data)));
   socket.on('removeChannel', (data) => store.dispatch(actions.deleteChannel(data)));

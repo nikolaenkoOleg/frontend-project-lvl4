@@ -8,9 +8,9 @@ export const {
   sendMessageRequest,
   sendMessageSuccses,
   sendMessageFailure,
-  getMessagesRequest,
-  getMessagesSuccses,
-  getMessagesFailure,
+  loadingMessagesRequest,
+  loadingMessagesSuccses,
+  loadingMessagesFailure,
 } = messagesActions;
 
 export const {

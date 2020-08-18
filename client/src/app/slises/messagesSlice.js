@@ -18,15 +18,15 @@ const messagesSlice = createSlice({
     sendMessageFailure(state) {
       state.sendMessageState = { type: 'error', text: 'Network error' };
     },
-    getMessagesRequest(state) {
+    loadingMessagesRequest(state) {
       state.getMessagesState = { type: 'request' };
     },
-    getMessagesSuccses(state, { payload: { data: { attributes } } }) {
+    loadingMessagesSuccses(state, { payload: { data: { attributes } } }) {
       const newMessage = attributes;
       state.messages.push(newMessage);
       state.getMessagesState = { type: 'succses' };
     },
-    getMessagesFailure(state) {
+    loadingMessagesFailure(state) {
       state.getMessagesState = { type: 'error', text: 'Network error' };
     },
   },

@@ -9,9 +9,9 @@ import {
   sendMessageRequest,
   sendMessageSuccses,
   sendMessageFailure,
-  getMessagesRequest,
-  getMessagesSuccses,
-  getMessagesFailure,
+  loadingMessagesRequest,
+  loadingMessagesSuccses,
+  loadingMessagesFailure,
   addNewChannelRequest,
   addNewChannelSuccses,
   addNewChannelFailure,
@@ -39,12 +39,12 @@ export const sendMessageAction = (message) => async (dispatch) => {
   }
 };
 
-export const getMessagesAction = (data) => (dispatch) => {
-  dispatch(getMessagesRequest());
+export const loadMessagesAction = (data) => (dispatch) => {
+  dispatch(loadingMessagesRequest());
   try {
-    dispatch(getMessagesSuccses(data));
+    dispatch(loadingMessagesSuccses(data));
   } catch (e) {
-    dispatch(getMessagesFailure());
+    dispatch(loadingMessagesFailure());
     console.log(e);
   }
 };
