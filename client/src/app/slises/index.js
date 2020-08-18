@@ -5,9 +5,9 @@ import channelsState, { actions as channelsActions } from './channelsSlice';
 import modalsState, { actions as modalActions } from './modalsSlice';
 
 export const {
-  sendMessageRequest,
-  sendMessageSuccses,
-  sendMessageFailure,
+  sendingMessageRequest,
+  sendingMessageSuccses,
+  sendingMessageFailure,
   loadingMessagesRequest,
   loadingMessagesSuccses,
   loadingMessagesFailure,

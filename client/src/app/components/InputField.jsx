@@ -15,13 +15,13 @@ export default () => {
   const user = useContext(UserContext);
   const store = useSelector((state) => {
     const {
-      messagesState: { sendMessageState },
+      messagesState: { sendingMessageState },
       channelsState: { currentChannelId },
     } = state;
 
-    return { sendMessageState, currentChannelId };
+    return { sendingMessageState, currentChannelId };
   });
-  const { sendMessageState, currentChannelId } = store;
+  const { sendingMessageState, currentChannelId } = store;
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -61,7 +61,7 @@ export default () => {
             { formik.isSubmitting && <div className="spinner-border ml-2 mt-1" role="status" /> }
             { formik.errors.message && <div className="d-block invalid-feedback">{formik.errors.message}</div> }
           </div>
-          { sendMessageState.type === 'error' && <div className="alert alert-warning">Network error</div> }
+          { sendingMessageState.type === 'error' && <div className="alert alert-warning">Network error</div> }
         </div>
       </form>
     </div>
