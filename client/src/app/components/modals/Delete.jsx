@@ -1,8 +1,11 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import i18next from 'i18next';
+import axios from 'axios';
 
-import { closeModal, deleteChannelAction as deleteChannel } from '../../actions';
+import { closeModal } from '../../actions';
+import getUrl from '../../../routes';
 
 export default () => {
   const store = useSelector((state) => {
@@ -18,11 +21,16 @@ export default () => {
   const { id, name, removable } = store;
   const dispatch = useDispatch();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (removable) {
-      dispatch(deleteChannel(id));
-      dispatch(closeModal('deleteModal'));
+      const url = getUrl.channelPath(id);
+      try {
+        await axios.delete(url, { data: { attributes: { id } } });
+        dispatch(closeModal('deleteModal'));
+      } catch (error) {
+        
+      }
     }
   };
 
