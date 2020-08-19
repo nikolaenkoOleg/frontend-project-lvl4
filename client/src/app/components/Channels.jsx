@@ -77,22 +77,21 @@ export default () => {
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
         {channels.map(({ id, name }) => (
-          <React.Fragment key={id}>
-            <li className="nav-item">
-              <button
-                type="button"
-                className={cn({
-                  'nav-link': true,
-                  btn: true,
-                  'btn-block': true,
-                  active: id === currentChannelId,
-                })}
-                onClick={setActiveChannelHandle(id)}
-              >
-                {name}
-              </button>
-            </li>
-          </React.Fragment>
+          <li className="nav-item" key={id}>
+            <button
+              type="button"
+              className={cn({
+                'nav-link': true,
+                btn: true,
+                'btn-block': true,
+                active: id === currentChannelId,
+              })}
+              key={id}
+              onClick={setActiveChannelHandle(id)}
+            >
+              {name}
+            </button>
+          </li>
         ))}
       </ul>
     </div>
