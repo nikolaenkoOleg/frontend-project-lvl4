@@ -36,7 +36,9 @@ export default () => {
 
       try {
         await axios.post(url, { data: { attributes: { message } } });
-        resetForm();
+        resetForm({
+          message: '',
+        });
         setSubmitting(false);
       } catch (error) {
         setSubmitting(false);

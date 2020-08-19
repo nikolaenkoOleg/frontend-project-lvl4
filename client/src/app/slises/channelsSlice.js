@@ -24,24 +24,6 @@ const channelSlice = createSlice({
     deleteChannel(state, { payload: { data: { id } } }) {
       state.channels = state.channels.filter((c) => c.id !== id);
     },
-    addNewChannelRequest(state) {
-      state.addingChannelState = 'request';
-    },
-    addNewChannelSuccses(state) {
-      state.addingChannelState = 'success';
-    },
-    addNewChannelFailure(state) {
-      state.addingChannelState = 'error';
-    },
-    renameChannelRequest(state) {
-      state.renameChannelState = 'request';
-    },
-    renameChannelSuccess(state) {
-      state.renameChannelState = 'success';
-    },
-    renameChannelFailure(state) {
-      state.renameChannelState = 'failure';
-    },
     deleteChannelRequest(state) {
       state.deleteChannelState = 'request';
     },

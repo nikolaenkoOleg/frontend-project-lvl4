@@ -9,12 +9,6 @@ import {
   loadingMessagesRequest,
   loadingMessagesSuccses,
   loadingMessagesFailure,
-  addNewChannelRequest,
-  addNewChannelSuccses,
-  addNewChannelFailure,
-  renameChannelRequest,
-  renameChannelSuccess,
-  renameChannelFailure,
   deleteChannelRequest,
   deleteChannelSuccess,
   deleteChannelFailure,
@@ -28,32 +22,6 @@ export const loadMessagesAction = (data) => (dispatch) => {
     dispatch(loadingMessagesSuccses(data));
   } catch (e) {
     dispatch(loadingMessagesFailure());
-    console.log(e);
-  }
-};
-
-export const addNewChannelAction = (name) => async (dispatch) => {
-  dispatch(addNewChannelRequest());
-  try {
-    const url = getUrl.channelsPath();
-    await axios.post(url, { data: { attributes: { name } } });
-
-    dispatch(addNewChannelSuccses());
-  } catch (e) {
-    dispatch(addNewChannelFailure(e));
-    console.log(e);
-  }
-};
-
-export const renameChannelAction = ({ channelName, currentChannelId }) => async (dispatch) => {
-  dispatch(renameChannelRequest());
-  try {
-    const url = getUrl.channelPath(currentChannelId);
-    await axios.patch(url, { data: { attributes: { name: channelName } } });
-
-    dispatch(renameChannelSuccess());
-  } catch (e) {
-    dispatch(renameChannelFailure(e));
     console.log(e);
   }
 };

@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import i18next from 'i18next';
+import axios from 'axios';
 
-import { closeModal, addNewChannelAction as addChannel } from '../../actions';
+import { closeModal } from '../../actions';
+import getUrl from '../../../routes';
 
 export default () => {
   const store = useSelector((state) => {
@@ -28,16 +30,27 @@ export default () => {
       channelName: '',
     },
     validationSchema,
-    onSubmit: async (values, { resetForm, setSubmitting }) => {
+    onSubmit: async (values, { resetForm, setSubmitting, setFieldError }) => {
       const { channelName } = values;
-      await dispatch(addChannel(channelName));
-      setSubmitting(false);
-      resetForm({
-        channelName: '',
-      });
-      dispatch(closeModal('addModal'));
+      const url = getUrl.channelsPath();
+      console.log(channelName);
+      try {
+        await axios.post(url, { data: { attributes: { name: channelName } } });
+        resetForm({
+          channelName: '',
+        });
+        setSubmitting(false);
+        dispatch(closeModal('addModal'));
+      } catch (error) {
+        setSubmitting(false);
+        setFieldError('network', i18next.t('errors.network'));
+      }
     },
   });
+
+  const inputRef = useRef();
+  const setFocus = () => inputRef.current.focus();
+  useEffect(setFocus);
 
   const onClose = () => {
     if (formik.isSubmitting) {
@@ -59,17 +72,18 @@ export default () => {
             <Form onSubmit={formik.handleSubmit}>
               <Form.Group controlId="formBasicEmail">
                 <Form.Control
-                  required
                   type="text"
                   name="channelName"
                   value={formik.values.channelName}
                   placeholder="Enter new channel name"
                   onChange={formik.handleChange}
                   disabled={formik.isSubmitting}
+                  ref={inputRef}
                 />
               </Form.Group>
             </Form>
             { formik.errors.channelName && <div className="d-block invalid-feedback">{formik.errors.channelName}</div> }
+            { formik.errors.network && <div className="alert alert-warning">{formik.errors.network}</div> }
           </Modal.Body>
 
           <Modal.Footer>
