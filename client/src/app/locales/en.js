@@ -1,7 +1,8 @@
 export default {
   translation: {
     errors: {
-      required: 'Required field',
+      required: 'Required field.',
+      network: 'Network error. Try Again.',
     },
   },
 };

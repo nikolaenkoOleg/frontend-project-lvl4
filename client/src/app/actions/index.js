@@ -6,9 +6,6 @@ import {
   getChannels,
   fetchChannels,
   deleteChannel,
-  sendingMessageRequest,
-  sendingMessageSuccses,
-  sendingMessageFailure,
   loadingMessagesRequest,
   loadingMessagesSuccses,
   loadingMessagesFailure,
@@ -24,20 +21,6 @@ import {
 } from '../slises';
 
 export { openModal, closeModal } from '../slises';
-
-export const sendMessageAction = (message) => async (dispatch) => {
-  dispatch(sendingMessageRequest());
-  try {
-    const { channelId } = message;
-    const url = getUrl.channelMessagesPath(channelId);
-
-    await axios.post(url, { data: { attributes: { message } } });
-    dispatch(sendingMessageSuccses());
-  } catch (e) {
-    dispatch(sendingMessageFailure());
-    console.log(e);
-  }
-};
 
 export const loadMessagesAction = (data) => (dispatch) => {
   dispatch(loadingMessagesRequest());
