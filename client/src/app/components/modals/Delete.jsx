@@ -1,11 +1,12 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import i18next from 'i18next';
+import { useFormik } from 'formik';
 import axios from 'axios';
+import i18next from 'i18next';
 
-import { closeModal } from '../../actions';
 import getUrl from '../../../routes';
+import { closeModal } from '../../actions';
 
 export default () => {
   const store = useSelector((state) => {
@@ -21,18 +22,24 @@ export default () => {
   const { id, name, removable } = store;
   const dispatch = useDispatch();
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (removable) {
+  const formik = useFormik({
+    initialValues: {
+      channelName: '',
+    },
+    onSubmit: async (_values, { setSubmitting, setFieldError }) => {
       const url = getUrl.channelPath(id);
-      try {
-        await axios.delete(url, { data: { attributes: { id } } });
-        dispatch(closeModal('deleteModal'));
-      } catch (error) {
-        
+      if (removable) {
+        try {
+          await axios.delete(url, { data: { attributes: { id } } });
+          setSubmitting(false);
+          dispatch(closeModal('deleteModal'));
+        } catch (error) {
+          setSubmitting(false);
+          setFieldError('network', i18next.t('errors.network'));
+        }
       }
-    }
-  };
+    },
+  });
 
   const onClose = () => {
     dispatch(closeModal('deleteModal'));
@@ -52,11 +59,24 @@ export default () => {
             &quot;
             {name}
             &quot;?
+            { formik.errors.network && <div className="alert alert-warning">{formik.errors.network}</div> }
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={onClose}>Close</Button>
-            <Button variant="primary" onClick={onSubmit}>Delete</Button>
+            <Button
+              variant="secondary"
+              onClick={onClose}
+              disabled={formik.isSubmitting}
+            >
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={formik.handleSubmit}
+              disabled={formik.isSubmitting}
+            >
+              {formik.isSubmitting ? 'Deleting...' : 'Delete'}
+            </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </div>

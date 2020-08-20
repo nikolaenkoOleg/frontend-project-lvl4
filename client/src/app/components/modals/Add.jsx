@@ -33,7 +33,6 @@ export default () => {
     onSubmit: async (values, { resetForm, setSubmitting, setFieldError }) => {
       const { channelName } = values;
       const url = getUrl.channelsPath();
-      console.log(channelName);
       try {
         await axios.post(url, { data: { attributes: { name: channelName } } });
         resetForm({

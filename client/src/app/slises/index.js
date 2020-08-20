@@ -15,9 +15,6 @@ export const {
   getChannels,
   fetchChannels,
   deleteChannel,
-  deleteChannelRequest,
-  deleteChannelSuccess,
-  deleteChannelFailure,
 } = channelsActions;
 
 export const {

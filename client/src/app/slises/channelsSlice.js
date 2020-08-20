@@ -6,7 +6,6 @@ const channelSlice = createSlice({
   initialState: {
     channels: [],
     currentChannelId: 1,
-    addingChannelState: 'none',
   },
   reducers: {
     changeChannel(state, { payload: { id } }) {
@@ -23,15 +22,7 @@ const channelSlice = createSlice({
     },
     deleteChannel(state, { payload: { data: { id } } }) {
       state.channels = state.channels.filter((c) => c.id !== id);
-    },
-    deleteChannelRequest(state) {
-      state.deleteChannelState = 'request';
-    },
-    deleteChannelSuccess(state) {
-      state.deleteChannelState = 'success';
-    },
-    deleteChannelFailure(state) {
-      state.deleteChannelState = 'failure';
+      state.currentChannelId = 1;
     },
   },
 });

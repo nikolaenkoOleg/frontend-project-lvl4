@@ -32,12 +32,10 @@ export default (gon) => {
     preloadedState: {
       messagesState: {
         messages: gon.messages,
-        sendingMessageState: 'none',
       },
       channelsState: {
         channels: gon.channels,
         currentChannelId: gon.currentChannelId,
-        addingChannelState: 'none',
       },
     },
   });
