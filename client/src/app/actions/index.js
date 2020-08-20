@@ -1,7 +1,7 @@
 export {
   changeChannel,
-  getChannels,
-  fetchChannels,
+  loadChannels,
+  pullNewChannel,
   deleteChannel,
   loadMessages,
   openModal,

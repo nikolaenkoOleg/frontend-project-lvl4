@@ -41,8 +41,8 @@ export default (gon) => {
   });
 
   socket.on('newMessage', (data) => store.dispatch(actions.loadMessages(data)));
-  socket.on('newChannel', (data) => store.dispatch(actions.getChannels(data)));
-  socket.on('renameChannel', (data) => store.dispatch(actions.fetchChannels(data)));
+  socket.on('newChannel', (data) => store.dispatch(actions.loadChannels(data)));
+  socket.on('renameChannel', (data) => store.dispatch(actions.pullNewChannel(data)));
   socket.on('removeChannel', (data) => store.dispatch(actions.deleteChannel(data)));
 
   render(

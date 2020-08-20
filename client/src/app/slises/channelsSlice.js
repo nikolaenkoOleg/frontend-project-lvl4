@@ -11,11 +11,11 @@ const channelSlice = createSlice({
     changeChannel(state, { payload: { id } }) {
       state.currentChannelId = id;
     },
-    getChannels(state, { payload: { data: { attributes } } }) {
+    loadChannels(state, { payload: { data: { attributes } } }) {
       const newChannel = attributes;
       state.channels.push(newChannel);
     },
-    fetchChannels(state, { payload: { data: { attributes } } }) {
+    pullNewChannel(state, { payload: { data: { attributes } } }) {
       const filteredChannels = state.channels.filter((channel) => channel.id !== attributes.id);
       const newChannel = attributes;
       state.channels = filteredChannels.concat(newChannel);

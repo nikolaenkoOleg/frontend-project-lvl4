@@ -10,8 +10,8 @@ export const {
 
 export const {
   changeChannel,
-  getChannels,
-  fetchChannels,
+  loadChannels,
+  pullNewChannel,
   deleteChannel,
 } = channelsActions;
 
