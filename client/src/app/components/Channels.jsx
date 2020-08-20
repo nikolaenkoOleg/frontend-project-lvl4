@@ -14,7 +14,7 @@ export default () => {
   const store = useSelector((state) => {
     const {
       channelsState: { channels, currentChannelId },
-      modalsState: { addModalIsShow, renameModalIsShow, deleteModalIsShow },
+      modalsState: { addingModalIsShow, renamingModalIsShow, deletingModalIsShow },
     } = state;
 
     const sortedChannels = channels.slice().sort((a, b) => a.id - b.id);
@@ -22,58 +22,58 @@ export default () => {
     return {
       channels: sortedChannels,
       currentChannelId,
-      addModalIsShow,
-      renameModalIsShow,
-      deleteModalIsShow,
+      addingModalIsShow,
+      renamingModalIsShow,
+      deletingModalIsShow,
     };
   });
 
   const dispatch = useDispatch();
 
-  const setActiveChannelHandle = (id) => () => {
+  const setActiveChannelHandler = (id) => () => {
     dispatch(changeChannel({ id }));
   };
 
-  const addModalHandle = () => {
-    dispatch(openModal('addModal'));
+  const callAddModal = () => {
+    dispatch(openModal('addingModal'));
   };
 
-  const renameModalHandle = () => {
-    dispatch(openModal('renameModal'));
+  const callDeleteModal = () => {
+    dispatch(openModal('deletingModal'));
   };
 
-  const deleteModalHandle = () => {
-    dispatch(openModal('deleteModal'));
+  const callRenameModal = () => {
+    dispatch(openModal('renamingModal'));
   };
 
   const {
-    addModalIsShow,
-    renameModalIsShow,
-    deleteModalIsShow,
+    addingModalIsShow,
+    renamingModalIsShow,
+    deletingModalIsShow,
     channels,
     currentChannelId,
   } = store;
 
-  const addModal = addModalIsShow ? (<Add />) : null;
-  const renameModal = renameModalIsShow ? (<Rename />) : null;
-  const deleteModal = deleteModalIsShow ? (<Delete />) : null;
+  const addingModal = addingModalIsShow ? (<Add />) : null;
+  const renamingModal = renamingModalIsShow ? (<Rename />) : null;
+  const deletingModal = deletingModalIsShow ? (<Delete />) : null;
 
   return (
     <div className="col-3 border-right">
       <div className="d-flex mb-2">
         <span>Channels</span>
-        <button type="button" className="btn btn-link p-0 ml-auto" onClick={addModalHandle}>
+        <button type="button" className="btn btn-link p-0 ml-auto" onClick={callAddModal}>
           <FontAwesomeIcon icon={faPlus} />
         </button>
-        <button type="button" className="btn btn-link p-0 ml-4" onClick={deleteModalHandle}>
+        <button type="button" className="btn btn-link p-0 ml-4" onClick={callDeleteModal}>
           <FontAwesomeIcon icon={faTrash} />
         </button>
-        <button type="button" className="btn btn-link p-0 ml-4" onClick={renameModalHandle}>
+        <button type="button" className="btn btn-link p-0 ml-4" onClick={callRenameModal}>
           <FontAwesomeIcon icon={faEdit} />
         </button>
-        {addModal}
-        {renameModal}
-        {deleteModal}
+        {addingModal}
+        {renamingModal}
+        {deletingModal}
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
         {channels.map(({ id, name }) => (
@@ -87,7 +87,7 @@ export default () => {
                 active: id === currentChannelId,
               })}
               key={id}
-              onClick={setActiveChannelHandle(id)}
+              onClick={setActiveChannelHandler(id)}
             >
               {name}
             </button>

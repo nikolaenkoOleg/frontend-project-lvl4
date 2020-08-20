@@ -10,7 +10,7 @@ import {
 
 export { openModal, closeModal } from '../slises';
 
-export const loadMessagesAction = (data) => (dispatch) => {
+export const loadMessages = (data) => (dispatch) => {
   dispatch(loadingMessagesRequest());
   try {
     dispatch(loadingMessagesSuccses(data));

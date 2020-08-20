@@ -30,7 +30,7 @@ export default () => {
         try {
           await axios.delete(url, { data: { attributes: { id } } });
           setSubmitting(false);
-          dispatch(closeModal('deleteModal'));
+          dispatch(closeModal('deletingModal'));
         } catch (error) {
           setSubmitting(false);
           setFieldError('network', i18next.t('errors.network'));
@@ -45,7 +45,7 @@ export default () => {
     if (formik.isSubmitting) {
       return;
     }
-    dispatch(closeModal('deleteModal'));
+    dispatch(closeModal('deletingModal'));
   };
 
   return (

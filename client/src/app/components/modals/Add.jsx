@@ -39,7 +39,7 @@ export default () => {
           channelName: '',
         });
         setSubmitting(false);
-        dispatch(closeModal('addModal'));
+        dispatch(closeModal('addingModal'));
       } catch (error) {
         setSubmitting(false);
         setFieldError('network', i18next.t('errors.network'));
@@ -55,7 +55,7 @@ export default () => {
     if (formik.isSubmitting) {
       return;
     }
-    dispatch(closeModal('addModal'));
+    dispatch(closeModal('addingModal'));
   };
 
   return (

@@ -38,7 +38,7 @@ export default () => {
         resetForm({
           channelName: '',
         });
-        dispatch(closeModal('renameModal'));
+        dispatch(closeModal('renamingModal'));
       } catch (error) {
         setSubmitting(false);
         setFieldError('network', i18next.t('errors.network'));
@@ -53,7 +53,7 @@ export default () => {
     if (formik.isSubmitting) {
       return;
     }
-    dispatch(closeModal('renameModal'));
+    dispatch(closeModal('renamingModal'));
   };
 
   return (
