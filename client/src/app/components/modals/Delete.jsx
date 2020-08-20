@@ -23,9 +23,7 @@ export default () => {
   const dispatch = useDispatch();
 
   const formik = useFormik({
-    initialValues: {
-      channelName: '',
-    },
+    initialValues: {},
     onSubmit: async (_values, { setSubmitting, setFieldError }) => {
       const url = getUrl.channelPath(id);
       if (removable) {
