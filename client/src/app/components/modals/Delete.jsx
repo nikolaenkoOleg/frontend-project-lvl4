@@ -35,11 +35,16 @@ export default () => {
           setSubmitting(false);
           setFieldError('network', i18next.t('errors.network'));
         }
+      } else {
+        setFieldError('noremovable', i18next.t('errors.noremovable'));
       }
     },
   });
 
   const onClose = () => {
+    if (formik.isSubmitting) {
+      return;
+    }
     dispatch(closeModal('deleteModal'));
   };
 
@@ -53,10 +58,11 @@ export default () => {
           </Modal.Header>
 
           <Modal.Body>
-            Delete this channel
+            Delete channel
             &quot;
             {name}
             &quot;?
+            { formik.errors.noremovable && <div className="d-block invalid-feedback">{formik.errors.noremovable}</div> }
             { formik.errors.network && <div className="alert alert-warning">{formik.errors.network}</div> }
           </Modal.Body>
 
