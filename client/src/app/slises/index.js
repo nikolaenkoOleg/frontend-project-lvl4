@@ -5,9 +5,7 @@ import channelsState, { actions as channelsActions } from './channelsSlice';
 import modalsState, { actions as modalActions } from './modalsSlice';
 
 export const {
-  loadingMessagesRequest,
-  loadingMessagesSuccses,
-  loadingMessagesFailure,
+  loadMessages,
 } = messagesActions;
 
 export const {

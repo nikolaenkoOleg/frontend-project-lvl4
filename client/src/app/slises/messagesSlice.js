@@ -9,16 +9,9 @@ const messagesSlice = createSlice({
     messages: [],
   },
   reducers: {
-    loadingMessagesRequest(state) {
-      state.getMessagesState = { type: 'request' };
-    },
-    loadingMessagesSuccses(state, { payload: { data: { attributes } } }) {
+    loadMessages(state, { payload: { data: { attributes } } }) {
       const newMessage = attributes;
       state.messages.push(newMessage);
-      state.getMessagesState = { type: 'succses' };
-    },
-    loadingMessagesFailure(state) {
-      state.getMessagesState = { type: 'error', text: 'Network error' };
     },
   },
   extraReducers: {
