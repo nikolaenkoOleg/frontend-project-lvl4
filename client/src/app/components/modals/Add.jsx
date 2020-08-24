@@ -47,7 +47,7 @@ export default () => {
     },
   });
 
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const setFocus = () => inputRef.current.focus();
   useEffect(setFocus);
 
