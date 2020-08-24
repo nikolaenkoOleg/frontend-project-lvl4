@@ -22,8 +22,8 @@ export default (gon) => {
     },
   });
 
-  coockies.set('user', faker.name.findName());
-  const user = coockies.get('user');
+  const userName = coockies.get('userName') || faker.name.findName();
+  coockies.set('userName', userName);
 
   const socket = io();
 
@@ -47,7 +47,7 @@ export default (gon) => {
 
   render(
     <Provider store={store}>
-      <UserProvider value={user}>
+      <UserProvider value={coockies.get('userName')}>
         <App />
       </UserProvider>
     </Provider>,
