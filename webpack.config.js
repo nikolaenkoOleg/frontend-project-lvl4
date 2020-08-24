@@ -8,7 +8,7 @@ console.log('isProduction', isProduction);
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   entry: [
-    `${__dirname}/client/src/index.js`,
+    `${__dirname}/client/index.js`,
   ],
   externals: {
     gon: 'gon',
@@ -20,9 +20,6 @@ module.exports = {
     path: `${__dirname}/dist/public`,
     publicPath: '/assets/',
   },
-  plugins: [
-    // new MiniCssExtractPlugin(),
-  ],
   module: {
     rules: [
       {
