@@ -5,9 +5,7 @@ import { actions as channelsActions } from './channelsSlice';
 
 const messagesSlice = createSlice({
   name: 'messages',
-  initialState: {
-    messages: [],
-  },
+  initialState: [],
   reducers: {
     loadMessages(state, { payload: { data: { attributes } } }) {
       const newMessage = attributes;
