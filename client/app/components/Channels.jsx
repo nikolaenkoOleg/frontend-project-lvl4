@@ -11,9 +11,9 @@ import Rename from './modals/Rename';
 import Delete from './modals/Delete';
 
 export default () => {
-  const addingModalIsShow = useSelector((state) => state.modalsState.addingModalIsShow);
-  const renamingModalIsShow = useSelector((state) => state.modalsState.renamingModalIsShow);
-  const deletingModalIsShow = useSelector((state) => state.modalsState.deletingModalIsShow);
+  const addingModalIsShown = useSelector((state) => state.modalsState.addingModalIsShown);
+  const renamingModalIsShown = useSelector((state) => state.modalsState.renamingModalIsShown);
+  const deletingModalIsShown = useSelector((state) => state.modalsState.deletingModalIsShown);
   const channels = useSelector((state) => state.channelsState.channels);
   const currentChannelId = useSelector((state) => state.channelsState.currentChannelId);
 
@@ -21,37 +21,37 @@ export default () => {
 
   const dispatch = useDispatch();
 
-  const setActiveChannelHandler = (id) => () => {
+  const setActiveChannel = (id) => () => {
     dispatch(changeChannel({ id }));
   };
 
-  const callAddModal = () => {
+  const addingHandler = () => {
     dispatch(openModal('addingModal'));
   };
 
-  const callDeleteModal = () => {
+  const deletingHandler = () => {
     dispatch(openModal('deletingModal'));
   };
 
-  const callRenameModal = () => {
+  const renamingHandler = () => {
     dispatch(openModal('renamingModal'));
   };
 
-  const addingModal = addingModalIsShow ? (<Add />) : null;
-  const renamingModal = renamingModalIsShow ? (<Rename />) : null;
-  const deletingModal = deletingModalIsShow ? (<Delete />) : null;
+  const addingModal = addingModalIsShown ? (<Add />) : null;
+  const renamingModal = renamingModalIsShown ? (<Rename />) : null;
+  const deletingModal = deletingModalIsShown ? (<Delete />) : null;
 
   return (
     <div className="col-3 border-right">
       <div className="d-flex mb-2">
         <span>Channels</span>
-        <button type="button" className="btn btn-link p-0 ml-auto" onClick={callAddModal}>
+        <button type="button" className="btn btn-link p-0 ml-auto" onClick={addingHandler}>
           <FontAwesomeIcon icon={faPlus} />
         </button>
-        <button type="button" className="btn btn-link p-0 ml-4" onClick={callDeleteModal}>
+        <button type="button" className="btn btn-link p-0 ml-4" onClick={deletingHandler}>
           <FontAwesomeIcon icon={faTrash} />
         </button>
-        <button type="button" className="btn btn-link p-0 ml-4" onClick={callRenameModal}>
+        <button type="button" className="btn btn-link p-0 ml-4" onClick={renamingHandler}>
           <FontAwesomeIcon icon={faEdit} />
         </button>
         {addingModal}
@@ -70,7 +70,7 @@ export default () => {
                 active: id === currentChannelId,
               })}
               key={id}
-              onClick={setActiveChannelHandler(id)}
+              onClick={setActiveChannel(id)}
             >
               {name}
             </button>

@@ -2,9 +2,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const keyMapping = {
-  addingModal: 'addingModalIsShow',
-  renamingModal: 'renamingModalIsShow',
-  deletingModal: 'deletingModalIsShow',
+  addingModal: 'addingModalIsShown',
+  renamingModal: 'renamingModalIsShown',
+  deletingModal: 'deletingModalIsShown',
 };
 
 const modalsSlice = createSlice({
