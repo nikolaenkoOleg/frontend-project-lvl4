@@ -1,9 +1,9 @@
 export {
   changeChannel,
-  loadChannels,
-  pullNewChannel,
+  addChannel,
+  renameChannel,
   deleteChannel,
-  loadMessages,
+  addMessage,
   openModal,
   closeModal,
 } from '../slises';

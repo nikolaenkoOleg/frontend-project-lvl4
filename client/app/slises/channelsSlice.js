@@ -11,18 +11,18 @@ const channelSlice = createSlice({
     changeChannel(state, { payload: { id } }) {
       state.currentChannelId = id;
     },
-    loadChannels(state, { payload: { data: { attributes } } }) {
-      const newChannel = attributes;
-      state.channels.push(newChannel);
+    addChannel(state, { payload }) {
+      state.channels.push(payload);
     },
-    pullNewChannel(state, { payload: { data: { attributes } } }) {
-      const filteredChannels = state.channels.filter((channel) => channel.id !== attributes.id);
-      const newChannel = attributes;
+    renameChannel(state, { payload }) {
+      const filteredChannels = state.channels.filter((channel) => channel.id !== payload.id);
+      const newChannel = payload;
       state.channels = filteredChannels.concat(newChannel);
     },
-    deleteChannel(state, { payload: { data: { id } } }) {
+    deleteChannel(state, { payload: id }) {
+      const defaultChannelId = 1;
       state.channels = state.channels.filter((c) => c.id !== id);
-      state.currentChannelId = 1;
+      state.currentChannelId = defaultChannelId;
     },
   },
 });

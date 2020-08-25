@@ -40,10 +40,10 @@ export default (gon) => {
     },
   });
 
-  socket.on('newMessage', (data) => store.dispatch(actions.loadMessages(data)));
-  socket.on('newChannel', (data) => store.dispatch(actions.loadChannels(data)));
-  socket.on('renameChannel', (data) => store.dispatch(actions.pullNewChannel(data)));
-  socket.on('removeChannel', (data) => store.dispatch(actions.deleteChannel(data)));
+  socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(actions.addMessage(attributes)));
+  socket.on('newChannel', ({ data: { attributes } }) => store.dispatch(actions.addChannel(attributes)));
+  socket.on('renameChannel', ({ data: { attributes } }) => store.dispatch(actions.renameChannel(attributes)));
+  socket.on('removeChannel', ({ data: { id } }) => store.dispatch(actions.deleteChannel(id)));
 
   render(
     <Provider store={store}>
