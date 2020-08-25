@@ -16,13 +16,10 @@ const validationSchema = Yup.object({
 });
 
 export default () => {
-  const store = useSelector((state) => {
-    const { channelsState: { channels, currentChannelId } } = state;
-    const currnetChannel = channels.find((channel) => channel.id === currentChannelId);
+  const channels = useSelector((state) => state.channelsState.channels);
+  const currentChannelId = useSelector((state) => state.channelsState.currentChannelId);
+  const name = channels.find((channel) => channel.id === currentChannelId);
 
-    return { name: currnetChannel.name, currentChannelId };
-  });
-  const { name, currentChannelId } = store;
   const dispatch = useDispatch();
 
   const formik = useFormik({

@@ -10,19 +10,16 @@ import { closeModal } from '../../actions';
 import getUrl from '../../../routes';
 
 export default () => {
-  const store = useSelector((state) => {
-    const { channelsState: { channels } } = state;
-    const channelsNames = channels.map((channel) => channel.name);
+  const channels = useSelector((state) => state.channelsState.channels);
+  const channelsNames = channels.map((channel) => channel.name);
 
-    return { channelsNames };
-  });
   const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     channelName: Yup
       .string()
       .required(i18next.t('errors.required'))
-      .notOneOf(store.channelsNames),
+      .notOneOf(channelsNames),
   });
 
   const formik = useFormik({

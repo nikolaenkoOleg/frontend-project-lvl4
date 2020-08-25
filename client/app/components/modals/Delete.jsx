@@ -9,17 +9,11 @@ import getUrl from '../../../routes';
 import { closeModal } from '../../actions';
 
 export default () => {
-  const store = useSelector((state) => {
-    const { channelsState: { currentChannelId, channels } } = state;
-    const currentChannel = channels.find((channel) => channel.id === currentChannelId);
+  const channels = useSelector((state) => state.channelsState.channels);
+  const currentChannelId = useSelector((state) => state.channelsState.currentChannelId);
+  const currentChannel = channels.find((channel) => channel.id === currentChannelId);
+  const { id, name, removable } = currentChannel;
 
-    return {
-      id: currentChannelId,
-      name: currentChannel.name,
-      removable: currentChannel.removable,
-    };
-  });
-  const { id, name, removable } = store;
   const dispatch = useDispatch();
 
   const formik = useFormik({

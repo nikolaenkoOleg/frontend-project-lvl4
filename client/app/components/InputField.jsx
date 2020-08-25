@@ -14,15 +14,7 @@ export default () => {
     message: Yup.string().required(i18next.t('errors.required')),
   });
   const user = useContext(UserContext);
-  const store = useSelector((state) => {
-    const {
-      messagesState: { sendingMessageState },
-      channelsState: { currentChannelId },
-    } = state;
-
-    return { sendingMessageState, currentChannelId };
-  });
-  const { currentChannelId } = store;
+  const currentChannelId = useSelector((state) => state.channelsState.currentChannelId);
 
   const formik = useFormik({
     initialValues: {

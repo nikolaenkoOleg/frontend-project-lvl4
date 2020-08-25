@@ -11,22 +11,13 @@ import Rename from './modals/Rename';
 import Delete from './modals/Delete';
 
 export default () => {
-  const store = useSelector((state) => {
-    const {
-      channelsState: { channels, currentChannelId },
-      modalsState: { addingModalIsShow, renamingModalIsShow, deletingModalIsShow },
-    } = state;
+  const addingModalIsShow = useSelector((state) => state.modalsState.addingModalIsShow);
+  const renamingModalIsShow = useSelector((state) => state.modalsState.renamingModalIsShow);
+  const deletingModalIsShow = useSelector((state) => state.modalsState.deletingModalIsShow);
+  const channels = useSelector((state) => state.channelsState.channels);
+  const currentChannelId = useSelector((state) => state.channelsState.currentChannelId);
 
-    const sortedChannels = channels.slice().sort((a, b) => a.id - b.id);
-
-    return {
-      channels: sortedChannels,
-      currentChannelId,
-      addingModalIsShow,
-      renamingModalIsShow,
-      deletingModalIsShow,
-    };
-  });
+  const sortedChannels = channels.slice().sort((a, b) => a.id - b.id);
 
   const dispatch = useDispatch();
 
@@ -45,14 +36,6 @@ export default () => {
   const callRenameModal = () => {
     dispatch(openModal('renamingModal'));
   };
-
-  const {
-    addingModalIsShow,
-    renamingModalIsShow,
-    deletingModalIsShow,
-    channels,
-    currentChannelId,
-  } = store;
 
   const addingModal = addingModalIsShow ? (<Add />) : null;
   const renamingModal = renamingModalIsShow ? (<Rename />) : null;
@@ -76,7 +59,7 @@ export default () => {
         {deletingModal}
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
-        {channels.map(({ id, name }) => (
+        {sortedChannels.map(({ id, name }) => (
           <li className="nav-item" key={id}>
             <button
               type="button"
