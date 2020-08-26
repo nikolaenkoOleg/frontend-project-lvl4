@@ -1,27 +1,17 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-const keyMapping = {
-  addingModal: 'addingModalIsShown',
-  renamingModal: 'renamingModalIsShown',
-  deletingModal: 'deletingModalIsShown',
-};
-
 const modalsSlice = createSlice({
   name: 'modal',
-  initialState: {
-    addingModalIsShow: false,
-    renamingModalIsShow: false,
-    deletingModalIsShow: false,
-  },
+  initialState: {},
   reducers: {
     openModal(state, { payload }) {
-      const key = keyMapping[payload];
-      state[key] = true;
+      state.type = payload;
+      state.status = 'opened';
     },
     closeModal(state, { payload }) {
-      const key = keyMapping[payload];
-      state[key] = false;
+      state.type = payload;
+      state.status = 'closed';
     },
   },
 });

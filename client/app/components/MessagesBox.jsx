@@ -5,8 +5,8 @@ import { uniqueId } from 'lodash';
 import InpitField from './InputField';
 
 export default () => {
-  const messages = useSelector((state) => state.messagesState.messages);
-  const currentChannelId = useSelector((state) => state.channelsState.currentChannelId);
+  const { messages } = useSelector((state) => state.messagesState);
+  const { currentChannelId } = useSelector((state) => state.channelsState);
   const filteredMessages = messages.filter(({ channelId }) => currentChannelId === channelId);
 
   return (

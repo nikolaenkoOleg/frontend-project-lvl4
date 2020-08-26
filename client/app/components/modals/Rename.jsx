@@ -16,15 +16,15 @@ const validationSchema = Yup.object({
 });
 
 export default () => {
-  const channels = useSelector((state) => state.channelsState.channels);
-  const currentChannelId = useSelector((state) => state.channelsState.currentChannelId);
-  const name = channels.find((channel) => channel.id === currentChannelId);
+  const { channels } = useSelector((state) => state.channelsState);
+  const { currentChannelId } = useSelector((state) => state.channelsState);
+  const currentChannel = channels.find((channel) => channel.id === currentChannelId);
 
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
-      channelName: name,
+      channelName: currentChannel.name,
     },
     validationSchema,
     onSubmit: async (values, { resetForm, setSubmitting, setFieldError }) => {

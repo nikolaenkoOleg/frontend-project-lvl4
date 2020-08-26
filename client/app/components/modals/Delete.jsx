@@ -9,8 +9,8 @@ import getUrl from '../../../routes';
 import { closeModal } from '../../actions';
 
 export default () => {
-  const channels = useSelector((state) => state.channelsState.channels);
-  const currentChannelId = useSelector((state) => state.channelsState.currentChannelId);
+  const { channels } = useSelector((state) => state.channelsState);
+  const { currentChannelId } = useSelector((state) => state.channelsState);
   const currentChannel = channels.find((channel) => channel.id === currentChannelId);
   const { id, name, removable } = currentChannel;
 

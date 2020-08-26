@@ -6,20 +6,25 @@ import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { changeChannel, openModal } from '../actions';
 
-import Add from './modals/Add';
-import Rename from './modals/Rename';
-import Delete from './modals/Delete';
+import getModal from './modals';
 
 export default () => {
-  const addingModalIsShown = useSelector((state) => state.modalsState.addingModalIsShown);
-  const renamingModalIsShown = useSelector((state) => state.modalsState.renamingModalIsShown);
-  const deletingModalIsShown = useSelector((state) => state.modalsState.deletingModalIsShown);
-  const channels = useSelector((state) => state.channelsState.channels);
-  const currentChannelId = useSelector((state) => state.channelsState.currentChannelId);
+  const { type, status } = useSelector((state) => state.modalsState);
+  const { channels } = useSelector((state) => state.channelsState);
+  const { currentChannelId } = useSelector((state) => state.channelsState);
 
   const sortedChannels = channels.slice().sort((a, b) => a.id - b.id);
 
   const dispatch = useDispatch();
+
+  const renderModal = (modalType) => {
+    if (!modalType) {
+      return null;
+    }
+
+    const Modal = getModal(modalType);
+    return <Modal />;
+  };
 
   const setActiveChannel = (id) => () => {
     dispatch(changeChannel({ id }));
@@ -37,10 +42,6 @@ export default () => {
     dispatch(openModal('renamingModal'));
   };
 
-  const addingModal = addingModalIsShown ? (<Add />) : null;
-  const renamingModal = renamingModalIsShown ? (<Rename />) : null;
-  const deletingModal = deletingModalIsShown ? (<Delete />) : null;
-
   return (
     <div className="col-3 border-right">
       <div className="d-flex mb-2">
@@ -54,10 +55,8 @@ export default () => {
         <button type="button" className="btn btn-link p-0 ml-4" onClick={renamingHandler}>
           <FontAwesomeIcon icon={faEdit} />
         </button>
-        {addingModal}
-        {renamingModal}
-        {deletingModal}
       </div>
+      { status === 'opened' && renderModal(type)}
       <ul className="nav flex-column nav-pills nav-fill">
         {sortedChannels.map(({ id, name }) => (
           <li className="nav-item" key={id}>

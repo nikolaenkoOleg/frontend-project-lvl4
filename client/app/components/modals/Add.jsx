@@ -10,7 +10,7 @@ import { closeModal } from '../../actions';
 import getUrl from '../../../routes';
 
 export default () => {
-  const channels = useSelector((state) => state.channelsState.channels);
+  const { channels } = useSelector((state) => state.channelsState);
   const channelsNames = channels.map((channel) => channel.name);
 
   const dispatch = useDispatch();
