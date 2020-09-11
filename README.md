@@ -8,8 +8,8 @@
 В рамках этого учебного проекта я создал клиентскую часть упрощенной версии чата Slack. В процессе работы я использовал следующие инструменты:
 1. Фреймворк - [React](https://github.com/facebook/react);
 2. State management: 
-..*[Redux](https://github.com/reduxjs/redux)
-..*[Redux ToolKit](https://github.com/reduxjs/redux-toolkit)
+  ..*[Redux](https://github.com/reduxjs/redux)
+..* [Redux ToolKit](https://github.com/reduxjs/redux-toolkit)
 3. Работа с формами - [Formik](https://github.com/formium/formik);
 4. Запросы - [axios](https://github.com/axios/axios);
 5. Валидация - [yup](https://github.com/jquense/yup);
